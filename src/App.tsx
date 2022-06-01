@@ -83,7 +83,7 @@ const Colors = {
              backgroundColor: isDarkMode ? Colors.black : Colors.white,
            }}>
            <Section title="Step One">
-             Editaaaabcdefg <Text style={styles.highlight}>App.tsx</Text> to change this
+             41 <Text style={styles.highlight}>App.tsx</Text> to change this
              screen and then come back to see your edits.
            </Section>
            <Section title="See Your Changes">
