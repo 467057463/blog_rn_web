@@ -16,20 +16,20 @@ module.exports = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: {},
+      //   },
+      //   exclude: /node_modules/,
+      // },
       {
-        test: /\.(js|jsx)$/,
-        use: {
-          loader: 'babel-loader',
-          options: {},
-        },
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.tsx?$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         use: {
           loader: 'ts-loader',
         },
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
