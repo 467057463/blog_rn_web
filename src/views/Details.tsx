@@ -12,7 +12,7 @@ export default function Home({route, navigation}: Props){
       <Button 
         title="Go to details algin ..."
         onPress={() => navigation.push('Details', {
-          id: Math.random()
+          id: String(Math.random())
         })}
       />
       <Button 
@@ -25,7 +25,12 @@ export default function Home({route, navigation}: Props){
       />
       <Button
         title="set Params"
-        onPress={() => navigation.setParams({id: 55555}) }
+        onPress={() => navigation.setParams({id: '55555'}) }
+      />
+
+      <Button
+        title="GO TO USER"
+        onPress={() => navigation.navigate('Home', {screen: 'User'}) }
       />
     </View>
   )
