@@ -8,7 +8,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function Home({navigation}:Props){
   return(
     <View style={styles.view}>
-      <Text>Home screen</Text>
+      <Text>Home screenab</Text>
       <Button 
         title="go to Details"
         onPress={() => navigation.navigate('Details', {
