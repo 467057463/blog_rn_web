@@ -2,6 +2,7 @@
  import { NavigationContainer, TabRouter } from '@react-navigation/native';
  import { createNativeStackNavigator } from '@react-navigation/native-stack';
  import {
+   Button,
    SafeAreaView,
    ScrollView,
    StatusBar,
@@ -10,14 +11,16 @@
    useColorScheme,
    View,
  } from 'react-native';
- import Home from './views/Home'
+ import Home from './views/home'
  import Details from './views/Details'
+ import Login from './views/Login'
 
  export type RootStackParamList = {
   Home: undefined;
   Details: {
-    id: number
+    id: string
   };
+  Login: undefined
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -38,14 +41,25 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
           name="Home" 
           component={Home} 
           options={{
-            title: '首页',            
+            headerShown: false 
           }}
         />
-        <Stack.Screen name="Details" 
+        <Stack.Screen 
+          name="Details" 
           component={Details}
+          initialParams={{
+            id: 'test'
+          }}
           options={({route}) => ({
             title: String(route.params.id)
           })}
+        />
+        <Stack.Screen 
+          name="Login"
+          component={Login}
+          options={{
+            title: '登录'
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
