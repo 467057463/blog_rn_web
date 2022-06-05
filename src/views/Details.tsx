@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import type { RootStackParamList } from '../App'
-type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
+// import type { RootStackParamsList } from '../types/router'
+import type { RootStackParamsList } from '@/types/router'
+type Props = NativeStackScreenProps<RootStackParamsList, 'Details'>;
 
 export default function Home({route, navigation}: Props){
   return(
@@ -28,10 +29,10 @@ export default function Home({route, navigation}: Props){
         onPress={() => navigation.setParams({id: '55555'}) }
       />
 
-      <Button
+      {/* <Button
         title="GO TO USER"
         onPress={() => navigation.navigate('Home', {screen: 'User'}) }
-      />
+      /> */}
     </View>
   )
 }

@@ -1,89 +1,123 @@
  import React from 'react';
- import { NavigationContainer, TabRouter } from '@react-navigation/native';
+ import { NavigationContainer } from '@react-navigation/native';
  import { createNativeStackNavigator } from '@react-navigation/native-stack';
- import {
-   Button,
-   SafeAreaView,
-   ScrollView,
-   StatusBar,
-   StyleSheet,
-   Text,
-   useColorScheme,
-   View,
- } from 'react-native';
+ import { SafeAreaProvider } from 'react-native-safe-area-context';
+ import { StyleSheet } from 'react-native';
+ import { ThemeProvider } from '@rneui/themed';
+import { StoreProvider } from './hook/useStore';
  import Home from './views/home'
  import Details from './views/Details'
  import Login from './views/Login'
+// import type { RootStackParamsList } from './types/router'
+import type { RootStackParamsList } from '@/types/router'
 
- export type RootStackParamList = {
-  Home: undefined;
-  Details: {
-    id: string
-  };
-  Login: undefined
+
+//  export type RootStackParamList = {
+//   Home: undefined;
+//   Details: {
+//     id: string
+//   };
+//   Login: undefined
+// };
+
+const linking = {
+  prefixes: [''],
+  config: {
+    screens: {
+      Login: 'login',
+      Details: {
+        path: 'details/:id'
+      },
+      Home: {
+        path: 'home',
+        screens: {
+          Technology: {
+            path: 'technology',
+            exact: true,
+          },
+          Life: {
+            path: 'life',
+            exact: true,
+          },
+          User: {
+            path: 'user',
+            exact: true,
+          }
+        }
+      }
+    }
+  },
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
- const App = () => { 
-   return (
-    <NavigationContainer>    
-      <Stack.Navigator 
-        initialRouteName='Home'
-        screenOptions={{
-          headerTitleAlign: 'center',
-          headerTintColor: '#fff',
-          headerStyle: {
-            backgroundColor: '#f4511e'
-          },
-        }}
-      >
-        <Stack.Screen 
-          name="Home" 
-          component={Home} 
-          options={{
-            headerShown: false 
-          }}
-        />
-        <Stack.Screen 
-          name="Details" 
-          component={Details}
-          initialParams={{
-            id: 'test'
-          }}
-          options={({route}) => ({
-            title: String(route.params.id)
-          })}
-        />
-        <Stack.Screen 
-          name="Login"
-          component={Login}
-          options={{
-            title: '登录'
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-   );
- };
- 
- const styles = StyleSheet.create({
-   sectionContainer: {
-     marginTop: 32,
-     paddingHorizontal: 24,
-   },
-   sectionTitle: {
-     fontSize: 24,
-     fontWeight: '600',
-   },
-   sectionDescription: {
-     marginTop: 8,
-     fontSize: 18,
-     fontWeight: '400',
-   },
-   highlight: {
-     fontWeight: '700',
-   },
- });
- 
- export default App;
+
+const Stack = createNativeStackNavigator<RootStackParamsList>();
+const App = () => { 
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <StoreProvider>
+          <NavigationContainer
+            linking={linking}
+          >    
+            <Stack.Navigator 
+              screenOptions={{
+                headerTitleAlign: 'center',
+                headerTintColor: '#fff',
+                headerStyle: {
+                  backgroundColor: '#f4511e'
+                },
+              }}
+            >
+              <Stack.Screen 
+                name="Home" 
+                component={Home} 
+                options={{
+                  headerShown: false 
+                }}
+              />
+              <Stack.Screen 
+                name="Details" 
+                component={Details}
+                initialParams={{
+                  id: 'test'
+                }}
+                options={({route}) => ({
+                  title: String(route.params.id)
+                })}
+              />
+              {/* <Stack.Screen 
+                name="Login"
+                component={Login}
+                options={{
+                  title: '登录'
+                }}
+              /> */}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StoreProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
+  );
+};
+
+const styles = StyleSheet.create({
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+});
+
+export default App;
  

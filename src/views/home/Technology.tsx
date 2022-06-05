@@ -1,10 +1,21 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+import { Button, ThemeProvider } from '@rneui/themed';
+import { observer } from 'mobx-react-lite'
+import BigButton from '../../components/BigButton';
+import { useStore } from '../../hook/useStore';
 
-export default function Technology({navigation}){
+interface Props {
+  navigation: any
+}
+
+export default observer(({navigation}: Props) => {
+  const { user } = useStore();
+
   return(
     <View>
-      <Text>export</Text>
+      <Text>{Platform.OS} {user.state}</Text>
+      <BigButton/>
       <Button
         title="GO BACK"
         onPress={() => navigation.goBack()}
@@ -15,4 +26,4 @@ export default function Technology({navigation}){
       />
     </View>
   )
-}
+})
