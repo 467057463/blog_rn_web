@@ -1,10 +1,10 @@
-import { configure } from "mobx"
+import { configure } from 'mobx';
 import User from './user';
 
 configure({
-    enforceActions: "never",
-})
+  enforceActions: 'never',
+});
 
 export default {
-  user: new User()
-}
+  user: new User(),
+};

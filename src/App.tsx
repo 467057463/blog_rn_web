@@ -1,24 +1,14 @@
- import React from 'react';
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
- import { SafeAreaProvider } from 'react-native-safe-area-context';
- import { StyleSheet } from 'react-native';
- import { ThemeProvider } from '@rneui/themed';
-import { StoreProvider } from './hook/useStore';
- import Home from './views/home'
- import Details from './views/Details'
- import Login from './views/Login'
-// import type { RootStackParamsList } from './types/router'
-import type { RootStackParamsList } from '@/types/router'
-
-
-//  export type RootStackParamList = {
-//   Home: undefined;
-//   Details: {
-//     id: string
-//   };
-//   Login: undefined
-// };
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { ThemeProvider } from '@rneui/themed';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StoreProvider } from '@/hook/useStore';
+import Home from '@/views/home/index';
+import Details from '@/views/Details';
+import Login from '@/views/Login';
+import type { RootStackParamsList } from '@/types/router';
 
 const linking = {
   prefixes: [''],
@@ -26,7 +16,7 @@ const linking = {
     screens: {
       Login: 'login',
       Details: {
-        path: 'details/:id'
+        path: 'details/:id',
       },
       Home: {
         path: 'home',
@@ -42,47 +32,44 @@ const linking = {
           User: {
             path: 'user',
             exact: true,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   },
 };
 
-
 const Stack = createNativeStackNavigator<RootStackParamsList>();
-const App = () => { 
+const App = () => {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <StoreProvider>
-          <NavigationContainer
-            linking={linking}
-          >    
-            <Stack.Navigator 
+          <NavigationContainer linking={linking}>
+            <Stack.Navigator
               screenOptions={{
                 headerTitleAlign: 'center',
                 headerTintColor: '#fff',
                 headerStyle: {
-                  backgroundColor: '#f4511e'
+                  backgroundColor: '#f4511e',
                 },
               }}
             >
-              <Stack.Screen 
-                name="Home" 
-                component={Home} 
+              <Stack.Screen
+                name="Home"
+                component={Home}
                 options={{
-                  headerShown: false 
+                  headerShown: false,
                 }}
               />
-              <Stack.Screen 
-                name="Details" 
+              <Stack.Screen
+                name="Details"
                 component={Details}
                 initialParams={{
-                  id: 'test'
+                  id: 'test',
                 }}
-                options={({route}) => ({
-                  title: String(route.params.id)
+                options={({ route }) => ({
+                  title: String(route.params.id),
                 })}
               />
               {/* <Stack.Screen 
@@ -120,4 +107,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
- 

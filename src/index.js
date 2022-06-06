@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import {AppRegistry} from 'react-native';
-import {name as appName} from '../package.json';
+import React from 'react';
+import { AppRegistry } from 'react-native';
 import App from './App';
 
-function Root(){
+function Root() {
   return (
     <>
       <style type="text/css">{`
@@ -12,9 +12,9 @@ function Root(){
           src: url(${require('react-native-vector-icons/Fonts/Iconfont.ttf')}) format('truetype');
         }
       `}</style>
-      <App/>
+      <App />
     </>
-  )
+  );
 }
 if (module.hot) {
   module.hot.accept();
