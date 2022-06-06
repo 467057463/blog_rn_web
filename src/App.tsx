@@ -47,13 +47,15 @@ const App = () => {
         <StoreProvider>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
-              screenOptions={{
-                headerTitleAlign: 'center',
-                headerTintColor: '#fff',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
-              }}
+              screenOptions={
+                {
+                  // headerTitleAlign: 'center',
+                  // headerTintColor: '#fff',
+                  // headerStyle: {
+                  //   backgroundColor: '#f4511e',
+                  // },
+                }
+              }
             >
               <Stack.Screen
                 name="Home"

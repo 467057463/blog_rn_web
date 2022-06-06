@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { Platform } from 'react-native';
 import Technology from './Technology';
 import Life from './Life';
 import User from './User';
@@ -12,13 +12,14 @@ const N =
 
 export default function Home() {
   return (
+    // @ts-ignore
     <N.Navigator
       screenOptions={({ route }) => ({
-        headerTitleAlign: 'center',
-        headerTintColor: '#fff',
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
+        // headerTitleAlign: 'center',
+        // headerTintColor: '#fff',
+        // headerStyle: {
+        //   backgroundColor: '#f4511e',
+        // },
         drawerType: 'slide',
       })}
     >
