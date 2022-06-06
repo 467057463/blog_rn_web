@@ -1,14 +1,7 @@
 module.exports = {
   root: true,
-  extends: [
-    '@react-native-community',
-    // 'airbnb-typescript',
-    'prettier',
-    // 'prettier/@typescript-eslint',
-    // 'prettier/react',
-  ],
+  extends: ['@react-native-community', 'prettier'],
   parser: '@typescript-eslint/parser',
-  // plugins: ['@typescript-eslint'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],

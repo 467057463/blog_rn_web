@@ -1,10 +1,6 @@
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset', '@babel/preset-react'],
+  presets: ['module:metro-react-native-babel-preset'],
   plugins: [
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-private-methods',
-    '@babel/plugin-proposal-private-property-in-object',
-    'react-native-reanimated/plugin',
     [
       'module-resolver',
       {
@@ -12,16 +8,6 @@ module.exports = {
         alias: {
           '^@/(.+)': './src/\\1',
         },
-        // extensions: [
-        //   '.ios.js',
-        //   '.android.js',
-        //   '.js',
-        //   '.jsx',
-        //   '.json',
-        //   '.tsx',
-        //   '.ts',
-        //   '.native.js',
-        // ],
       },
     ],
   ],
