@@ -1,14 +1,16 @@
-import { makeAutoObservable } from 'mobx';
+import { autorun, makeAutoObservable, observable } from 'mobx';
 import { delay } from '@/utils';
 import type { StatusType } from '@/types/util';
-
-export default class User {
+import RootStore from './index';
+export default class UserStore {
+  rootStore: RootStore;
   inited: boolean = false;
   status: StatusType = 'success';
   data: any = {};
 
-  constructor() {
+  constructor(rootStore) {
     makeAutoObservable(this);
+    this.rootStore = rootStore;
   }
 
   get length() {

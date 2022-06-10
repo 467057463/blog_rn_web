@@ -4,6 +4,8 @@ import { ThemeProvider } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Iconfont from 'react-native-vector-icons/Iconfont';
+import { registerCustomIconType } from '@rneui/themed';
 import { StoreProvider } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
@@ -41,21 +43,21 @@ const linking = {
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 const App = () => {
+  registerCustomIconType('iconfont', Iconfont);
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <StoreProvider>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
-              screenOptions={
-                {
-                  // headerTitleAlign: 'center',
-                  // headerTintColor: '#fff',
-                  // headerStyle: {
-                  //   backgroundColor: '#f4511e',
-                  // },
-                }
-              }
+              initialRouteName="Login"
+              screenOptions={{
+                headerTitleAlign: 'center',
+                // headerTintColor: '#fff',
+                // headerStyle: {
+                //   backgroundColor: '#f4511e',
+                // },
+              }}
             >
               <Stack.Screen
                 name="Home"
@@ -74,13 +76,13 @@ const App = () => {
                   title: String(route.params.id),
                 })}
               />
-              {/* <Stack.Screen 
+              <Stack.Screen
                 name="Login"
                 component={Login}
                 options={{
-                  title: '登录'
+                  title: '登录',
                 }}
-              /> */}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </StoreProvider>
