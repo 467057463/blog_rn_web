@@ -1,11 +1,12 @@
 import React from 'react';
-import store from '../store';
+import RootStore from '../store';
 
-const storeContext = React.createContext<typeof store | null>(null);
-
+const storeContext = React.createContext<RootStore | null>(null);
 export const StoreProvider = ({ children }) => {
   return (
-    <storeContext.Provider value={store}>{children}</storeContext.Provider>
+    <storeContext.Provider value={new RootStore()}>
+      {children}
+    </storeContext.Provider>
   );
 };
 
