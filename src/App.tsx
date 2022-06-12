@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Iconfont from 'react-native-vector-icons/Iconfont';
 import { registerCustomIconType } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StoreProvider } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
@@ -41,9 +42,15 @@ const linking = {
   },
 };
 
+async function checkLogin() {
+  const user = await AsyncStorage.getItem('user');
+  console.log(user);
+}
+
 const Stack = createNativeStackNavigator<RootStackParamsList>();
-const App = () => {
+function App() {
   registerCustomIconType('iconfont', Iconfont);
+  checkLogin();
   return (
     <SafeAreaProvider>
       <ThemeProvider>
@@ -89,7 +96,7 @@ const App = () => {
       </ThemeProvider>
     </SafeAreaProvider>
   );
-};
+}
 
 const styles = StyleSheet.create({
   sectionContainer: {

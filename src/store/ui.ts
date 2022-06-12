@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import RootStore from './index';
+import { RootStore } from './index';
 
 export default class UIStore {
   rootStore: RootStore;

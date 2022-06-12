@@ -6,7 +6,7 @@ configure({
   enforceActions: 'never',
 });
 
-export default class RootStore {
+export class RootStore {
   userStore: UserStore;
   articleStore: ArticleStore;
 
@@ -15,3 +15,5 @@ export default class RootStore {
     this.articleStore = new ArticleStore(this);
   }
 }
+
+export default new RootStore();

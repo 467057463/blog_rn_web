@@ -10,13 +10,7 @@ export default observer(() => {
 
   return (
     <View>
-      <Text>
-        {userStore.status}: {userStore.length}
-      </Text>
-      <Button
-        title="GO DETAILS"
-        onPress={action(() => console.log(articleStore.getStatus()))}
-      />
+      <Button title="GO DETAILS" />
     </View>
   );
 });

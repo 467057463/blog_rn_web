@@ -1,3 +1,4 @@
-// 延时
-export const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+// 请求
+export * from './request';
+// 应用相关
+export * from './common';
