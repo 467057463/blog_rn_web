@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Iconfont from 'react-native-vector-icons/Iconfont';
 import { registerCustomIconType } from '@rneui/themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StoreProvider } from '@/hook/useStore';
+import rootStore from './store';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
 import Login from '@/views/Login';
@@ -42,28 +42,19 @@ const linking = {
   },
 };
 
-async function checkLogin() {
-  const user = await AsyncStorage.getItem('user');
-  console.log(user);
-}
-
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 function App() {
   registerCustomIconType('iconfont', Iconfont);
-  checkLogin();
+  rootStore.userStore.init();
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <StoreProvider>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
-              initialRouteName="Login"
+              // initialRouteName="Login"
               screenOptions={{
                 headerTitleAlign: 'center',
-                // headerTintColor: '#fff',
-                // headerStyle: {
-                //   backgroundColor: '#f4511e',
-                // },
               }}
             >
               <Stack.Screen

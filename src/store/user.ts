@@ -22,6 +22,14 @@ export default class UserStore {
     this.rootStore = rootStore;
   }
 
+  async init() {
+    const res = await AsyncStorage.getItem('user');
+    if (res) {
+      this.logined = true;
+      this.data = JSON.parse(res);
+    }
+  }
+
   // 登录
   async login(params) {
     try {

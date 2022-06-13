@@ -1,4 +1,5 @@
 import { configure } from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserStore from './user';
 import ArticleStore from './article';
 
