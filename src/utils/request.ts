@@ -8,9 +8,7 @@ export const request = axios.create({
 
 request.interceptors.request.use((config) => {
   if (rootStore.userStore.data) {
-    config.headers![
-      'Authorization'
-    ] = `Bearer ${rootStore.userStore.data.token}`;
+    config.headers!.Authorization = `Bearer ${rootStore.userStore.data.token}`;
   }
   return config;
 });
