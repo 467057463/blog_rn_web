@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { ThemeProvider } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -52,16 +52,18 @@ function App() {
         <StoreProvider>
           <NavigationContainer linking={linking}>
             <Stack.Navigator
+              id="rootStack"
               // initialRouteName="Login"
-              screenOptions={{
-                headerTitleAlign: 'center',
-              }}
+              // screenOptions={{
+              //   headerTitleAlign: 'center',
+              // }}
             >
               <Stack.Screen
                 name="Home"
                 component={Home}
                 options={{
-                  headerShown: false,
+                  headerShown: Platform.OS === 'web' ? true : false,
+                  title: '首页',
                 }}
               />
               <Stack.Screen

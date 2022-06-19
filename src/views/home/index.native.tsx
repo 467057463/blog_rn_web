@@ -13,7 +13,7 @@ export default function Home() {
         name="Technology"
         component={Technology}
         options={{
-          title: '首页',
+          title: '技术',
           tabBarIcon: ({ focused, color, size }) => (
             <Iconfont name="view" size={size} color={color} />
           ),
