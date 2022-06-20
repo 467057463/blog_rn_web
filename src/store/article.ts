@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from './index';
 import { getArticles } from '@/api/article';
 import { ArticleItem } from '@/types/article';
-import { StatusType } from '@/types/util';
+import type { StatusType } from '@/types/util';
 export default class ArticleStore {
   rootStore: RootStore;
 

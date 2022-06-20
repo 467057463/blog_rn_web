@@ -1,19 +1,22 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Button, Icon } from '@rneui/themed';
-import All from './All';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '@/hook/useStore';
+import { LargeSize } from '@/constant';
+import articleList from '@/components/articleList';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function Technology({ navigation }) {
+export default observer(function Technology({ navigation }: any) {
   const dimensions = useWindowDimensions();
+  const { tagStore } = useStore();
 
   useLayoutEffect(() => {
     navigation.getParent('rootStack').setOptions({
       headerLeft: () =>
-        dimensions.width < 768 ? (
-          // <Button onPress={() => navigation.toggleDrawer()}>text</Button>
+        dimensions.width < LargeSize ? (
           <Icon
             name="view"
             type="iconfont"
@@ -23,6 +26,7 @@ export default function Technology({ navigation }) {
         ) : null,
     });
   }, [navigation, dimensions]);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -34,15 +38,20 @@ export default function Technology({ navigation }) {
         lazy: true,
       }}
     >
-      <Tab.Screen name="All" component={All} />
-      <Tab.Screen name="css" component={All} />
-      <Tab.Screen name="javascript" component={All} />
-      <Tab.Screen name="typescript" component={All} />
-      <Tab.Screen name="vue" component={All} />
-      <Tab.Screen name="react" component={All} />
-      <Tab.Screen name="react native" component={All} />
-      <Tab.Screen name="liunx" component={All} />
-      <Tab.Screen name="flutter" component={All} />
+      <Tab.Screen name="All" component={articleList} />
+      <Tab.Screen name="HTML" component={articleList} />
+      {tagStore.data.map((tag) => (
+        <Tab.Screen key={tag._id} name={tag.name} component={articleList} />
+      ))}
+      {/* <Tab.Screen name="All" component={articleList} />
+      <Tab.Screen name="css" component={articleList} />
+      <Tab.Screen name="javascript" component={articleList} />
+      <Tab.Screen name="typescript" component={articleList} />
+      <Tab.Screen name="vue" component={articleList} />
+      <Tab.Screen name="react" component={articleList} />
+      <Tab.Screen name="react native" component={articleList} />
+      <Tab.Screen name="liunx" component={articleList} />
+      <Tab.Screen name="flutter" component={articleList} /> */}
     </Tab.Navigator>
   );
-}
+});
