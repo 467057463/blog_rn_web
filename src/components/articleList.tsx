@@ -7,13 +7,29 @@ import { ArticleItem } from '@/types/article';
 
 import avatar from '@/assets/avatar.jpg';
 
-export default observer(() => {
+type Props = {
+  category: 'TECHNICAL' | 'LIFE' | 'PRIVACY' | 'DRAFT';
+  tag: string;
+};
+
+export default observer(({ category, tag }: Props) => {
   const { articleStore } = useStore();
   const { theme } = useTheme();
 
+  function getList(category: string, tag: string, params?) {
+    articleStore.getArticles(category, tag, params);
+  }
+
+  function loadmore() {
+    // console.log('sssss');
+    articleStore.getArticles(category, tag, {
+      page: 2,
+    });
+  }
+
   useEffect(() => {
-    articleStore.getArticles();
-  }, [articleStore]);
+    getList(category, tag);
+  }, []);
 
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
     <ListItem bottomDivider>
@@ -68,10 +84,6 @@ export default observer(() => {
       </ListItem.Content>
     </ListItem>
   );
-
-  function loadmore() {
-    console.log('sssss');
-  }
 
   return (
     <View style={styles.container}>

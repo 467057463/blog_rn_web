@@ -2,6 +2,7 @@ import React from 'react';
 import { useWindowDimensions } from 'react-native';
 import Iconfont from 'react-native-vector-icons/Iconfont';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { LargeSize } from '@/constant';
 import Technology from './Technology';
 import Life from './Life';
 import About from './About';
@@ -18,8 +19,12 @@ export default function Home({ route, navigation }: Props) {
   return (
     <DrawerStack.Navigator
       screenOptions={{
-        drawerType: dimensions.width >= 768 ? 'permanent' : 'front',
+        drawerType: dimensions.width >= LargeSize ? 'permanent' : 'front',
         headerShown: false,
+        drawerStyle: {
+          // backgroundColor: '#c6cbef',
+          width: 240,
+        },
       }}
     >
       <DrawerStack.Screen

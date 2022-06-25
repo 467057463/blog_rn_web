@@ -2,11 +2,8 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from './index';
 import type { StatusType } from '@/types/util';
 import { delay } from '@/utils';
-
-type TagItem = {
-  name: string;
-  _id: string;
-};
+import { getTags } from '@/api/tag';
+import type { TagItem } from '@/types/tag';
 
 export default class TagStore {
   rootStore: RootStore;
@@ -22,20 +19,52 @@ export default class TagStore {
   async getTags() {
     try {
       this.loginStatus = 'loading';
-      await delay(1000);
-      this.data = [
-        {
-          name: 'css',
-          _id: '1',
-        },
-        {
-          name: 'js',
-          _id: '2',
-        },
-      ];
+      const res = await getTags();
+      this.data = res.result;
       this.loginStatus = 'success';
     } catch (error) {
       this.loginStatus = 'error';
     }
+  }
+
+  get linking() {
+    const res = this.data.reduce(
+      (prev, item) => {
+        return {
+          ...prev,
+          [item.name]: item.name,
+        };
+      },
+      { All: 'all' }
+    );
+    return {
+      prefixes: [''],
+      config: {
+        screens: {
+          Login: 'login',
+          Details: {
+            path: 'details/:id',
+          },
+          Home: {
+            path: 'home',
+            screens: {
+              Technology: {
+                path: 'technology',
+                exact: true,
+                screens: res,
+              },
+              Life: {
+                path: 'life',
+                exact: true,
+              },
+              About: {
+                path: 'about',
+                exact: true,
+              },
+            },
+          },
+        },
+      },
+    };
   }
 }

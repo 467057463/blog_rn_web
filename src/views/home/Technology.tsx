@@ -5,7 +5,7 @@ import { Button, Icon } from '@rneui/themed';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
 import { LargeSize } from '@/constant';
-import articleList from '@/components/articleList';
+import ArticleList from '@/components/articleList';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,20 +38,16 @@ export default observer(function Technology({ navigation }: any) {
         lazy: true,
       }}
     >
-      <Tab.Screen name="All" component={articleList} />
-      <Tab.Screen name="HTML" component={articleList} />
+      <Tab.Screen name="All">
+        {(props) => <ArticleList {...props} category="TECHNICAL" tag="" />}
+      </Tab.Screen>
       {tagStore.data.map((tag) => (
-        <Tab.Screen key={tag._id} name={tag.name} component={articleList} />
+        <Tab.Screen key={tag._id} name={tag.name}>
+          {(props) => (
+            <ArticleList {...props} category="TECHNICAL" tag={tag._id} />
+          )}
+        </Tab.Screen>
       ))}
-      {/* <Tab.Screen name="All" component={articleList} />
-      <Tab.Screen name="css" component={articleList} />
-      <Tab.Screen name="javascript" component={articleList} />
-      <Tab.Screen name="typescript" component={articleList} />
-      <Tab.Screen name="vue" component={articleList} />
-      <Tab.Screen name="react" component={articleList} />
-      <Tab.Screen name="react native" component={articleList} />
-      <Tab.Screen name="liunx" component={articleList} />
-      <Tab.Screen name="flutter" component={articleList} /> */}
     </Tab.Navigator>
   );
 });

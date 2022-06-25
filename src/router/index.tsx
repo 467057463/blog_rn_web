@@ -11,35 +11,6 @@ import { useStore } from '@/hook/useStore';
 import type { RootStackParamsList } from '@/types/router';
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 
-const linking = {
-  prefixes: [''],
-  config: {
-    screens: {
-      Login: 'login',
-      Details: {
-        path: 'details/:id',
-      },
-      Home: {
-        path: 'home',
-        screens: {
-          Technology: {
-            path: 'technology',
-            exact: true,
-          },
-          Life: {
-            path: 'life',
-            exact: true,
-          },
-          User: {
-            path: 'user',
-            exact: true,
-          },
-        },
-      },
-    },
-  },
-};
-
 export default observer(function AppRouter() {
   const { tagStore } = useStore();
 
@@ -56,7 +27,7 @@ export default observer(function AppRouter() {
   }
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer linking={tagStore.linking}>
       <Stack.Navigator id="rootStack">
         <Stack.Screen
           name="Home"
