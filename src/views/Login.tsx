@@ -5,11 +5,12 @@ import { Button, Input, Text } from '@rneui/themed';
 import { useForm, Controller } from 'react-hook-form';
 import { useStore } from '@/hook/useStore';
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamsList } from '@/types/router';
-type Props = NativeStackScreenProps<RootStackParamsList, 'Login'>;
+import type { ScreenProps } from '@/types/router';
 
-export default observer(function Login({ route, navigation }: Props) {
+export default observer(function Login({
+  route,
+  navigation,
+}: ScreenProps<'Login'>) {
   const { userStore } = useStore();
 
   const {

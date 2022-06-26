@@ -3,14 +3,17 @@ import { observer } from 'mobx-react-lite';
 import { Platform, View } from 'react-native';
 import { Text } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '@/views/home/index';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import { useStore } from '@/hook/useStore';
+import Technology from '@/views/Technology';
+import Life from '@/views/Life';
+import About from '@/views/About';
 import Details from '@/views/Details';
 import Login from '@/views/Login';
-import { useStore } from '@/hook/useStore';
 
 import type { RootStackParamsList } from '@/types/router';
-const Stack = createNativeStackNavigator<RootStackParamsList>();
+const DrawerStack = createDrawerNavigator<RootStackParamsList>();
 
 export default observer(function AppRouter() {
   const store = useStore();
@@ -37,23 +40,48 @@ export default observer(function AppRouter() {
 
   return (
     <NavigationContainer linking={store.tagStore.linking}>
-      <Stack.Navigator id="rootStack">
-        <Stack.Screen
-          name="Home"
-          component={Home}
+      <DrawerStack.Navigator>
+        <DrawerStack.Screen
+          name="Technology"
+          component={Technology}
           options={{
-            headerShown: Platform.OS === 'web' ? true : false,
-            title: '首页',
+            title: '技术',
           }}
         />
-        <Stack.Screen
+        <DrawerStack.Screen
+          name="Life"
+          component={Life}
+          options={{
+            title: '随笔',
+          }}
+        />
+        <DrawerStack.Screen
+          name="About"
+          component={About}
+          options={{
+            title: '关于',
+          }}
+        />
+        <DrawerStack.Screen
+          name="Details"
+          component={Details}
+          initialParams={{
+            id: 'test',
+          }}
+          options={({ route }) => ({
+            title: String(route.params.id),
+            drawerLabel: () => null,
+            drawerItemStyle: { display: 'none' },
+          })}
+        />
+        <DrawerStack.Screen
           name="Login"
           component={Login}
           options={{
             title: '登录',
           }}
         />
-      </Stack.Navigator>
+      </DrawerStack.Navigator>
     </NavigationContainer>
   );
 });
