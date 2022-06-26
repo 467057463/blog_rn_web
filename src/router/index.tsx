@@ -12,22 +12,22 @@ import type { RootStackParamsList } from '@/types/router';
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 
 export default observer(function AppRouter() {
-  const { tagStore } = useStore();
+  const store = useStore();
 
   useEffect(() => {
-    tagStore.getTags();
-  }, [tagStore]);
+    store.init();
+  }, []);
 
-  if (tagStore.loginStatus === 'loading') {
+  if (store.loginStatus === 'loading') {
     return <div>loading....</div>;
   }
 
-  if (tagStore.loginStatus === 'error') {
+  if (store.loginStatus === 'error') {
     return <div>error....</div>;
   }
 
   return (
-    <NavigationContainer linking={tagStore.linking}>
+    <NavigationContainer linking={store.tagStore.linking}>
       <Stack.Navigator id="rootStack">
         <Stack.Screen
           name="Home"

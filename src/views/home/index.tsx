@@ -6,6 +6,7 @@ import { LargeSize } from '@/constant';
 import Technology from './Technology';
 import Life from './Life';
 import About from './About';
+import ArticleList from '@/components/articleList';
 
 const DrawerStack = createDrawerNavigator();
 

@@ -38,9 +38,6 @@ export default observer(function Technology({ navigation }: any) {
         lazy: true,
       }}
     >
-      <Tab.Screen name="All">
-        {(props) => <ArticleList {...props} category="TECHNICAL" tag="" />}
-      </Tab.Screen>
       {tagStore.data.map((tag) => (
         <Tab.Screen key={tag._id} name={tag.name}>
           {(props) => (

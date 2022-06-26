@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Avatar, Icon, Text, ListItem, Button, useTheme } from '@rneui/themed';
+import { Avatar, Icon, Text, ListItem, useTheme } from '@rneui/themed';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
+import ListEmpty from '@/components/ListEmpty';
+import ListFooter from '@/components/ListFooter';
 import { ArticleItem } from '@/types/article';
 
 import avatar from '@/assets/avatar.jpg';
+import { computed } from 'mobx';
 
 type Props = {
   category: 'TECHNICAL' | 'LIFE' | 'PRIVACY' | 'DRAFT';
@@ -16,21 +19,29 @@ export default observer(({ category, tag }: Props) => {
   const { articleStore } = useStore();
   const { theme } = useTheme();
 
+  const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
+
+  // 获取数据
   function getList(category: string, tag: string, params?) {
     articleStore.getArticles(category, tag, params);
   }
 
+  // 加载更多
   function loadmore() {
-    // console.log('sssss');
-    articleStore.getArticles(category, tag, {
-      page: 2,
+    if (!data.meta.hasNext) {
+      return;
+    }
+    getList(category, tag, {
+      page: data.meta.currentPage + 1,
     });
   }
 
+  // 初始化加载数据
   useEffect(() => {
     getList(category, tag);
   }, []);
 
+  // 列表项
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
     <ListItem bottomDivider>
       <ListItem.Content>
@@ -88,11 +99,21 @@ export default observer(({ category, tag }: Props) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={articleStore.list}
+        data={data.list}
         renderItem={renderItem}
         onEndReached={loadmore}
-        onEndReachedThreshold={0.9}
+        onEndReachedThreshold={0.95}
         keyExtractor={(item) => item._id}
+        ListEmptyComponent={() => (
+          <ListEmpty length={data.list.length} inited={data.inited} />
+        )}
+        ListFooterComponent={() => (
+          <ListFooter
+            hasNext={data.meta.hasNext || false}
+            inited={data.inited}
+            loginStatus={data.loginStatus}
+          />
+        )}
       />
     </View>
   );

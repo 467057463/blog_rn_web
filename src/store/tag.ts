@@ -20,10 +20,12 @@ export default class TagStore {
     try {
       this.loginStatus = 'loading';
       const res = await getTags();
-      this.data = res.result;
+      this.data = res;
       this.loginStatus = 'success';
+      return res;
     } catch (error) {
       this.loginStatus = 'error';
+      return Promise.reject(error);
     }
   }
 
