@@ -1,26 +1,31 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '@/hook/useStore';
 import { Text } from '@rneui/themed';
+import { computed } from 'mobx';
 import type { StatusType } from '@/types/util';
 
 type Props = {
-  hasNext: boolean;
-  inited: boolean;
-  loginStatus: StatusType;
+  category: 'TECHNICAL' | 'LIFE' | 'PRIVACY' | 'DRAFT';
+  tag: string;
 };
-export default observer(({ hasNext, inited, loginStatus }: Props) => {
-  if (!inited) {
+
+export default observer(({ category, tag }: Props) => {
+  const { articleStore } = useStore();
+  const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
+
+  if (!data.inited || !data.list.length) {
     return null;
   }
-  if (loginStatus === 'loading') {
+  if (data.loginStatus === 'loading') {
     return (
       <View>
         <Text>加载中，请稍后...</Text>
       </View>
     );
   }
-  if (!hasNext) {
+  if (!data.meta.hasNext) {
     return (
       <View>
         <Text>暂无更多</Text>

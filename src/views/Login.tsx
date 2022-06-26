@@ -26,7 +26,7 @@ export default observer(function Login({ route, navigation }: Props) {
   async function onSubmit(data) {
     try {
       await userStore.login(data);
-      navigation.navigate('Home');
+      navigation.navigate('Home' as any);
     } catch (error) {
       console.error(error);
     }

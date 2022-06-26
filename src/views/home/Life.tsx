@@ -5,22 +5,33 @@ import ArticleList from '@/components/articleList';
 import { observer } from 'mobx-react-lite';
 import { LargeSize } from '@/constant';
 
-export default observer(function Life({ navigation }: any) {
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { DrawerScreenProps } from '@react-navigation/drawer';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import type { HomeParamsList, RootStackParamsList } from '@/types/router';
+
+type ListProps = CompositeScreenProps<
+  DrawerScreenProps<HomeParamsList, 'Life'>,
+  NativeStackScreenProps<RootStackParamsList, 'Home', 'rootStack'>
+>;
+
+export default observer(function Life(props: ListProps) {
   const dimensions = useWindowDimensions();
 
   useLayoutEffect(() => {
-    navigation.getParent('rootStack').setOptions({
+    props.navigation.getParent('rootStack')?.setOptions({
       headerLeft: () =>
         dimensions.width < LargeSize ? (
           <Icon
             name="view"
             type="iconfont"
-            onPress={() => navigation.toggleDrawer()}
+            onPress={() => props.navigation.toggleDrawer()}
             style={{ marginHorizontal: 10 }}
           />
         ) : null,
     });
-  }, [navigation, dimensions]);
+  }, [props.navigation, dimensions]);
 
-  return <ArticleList category="LIFE" tag="" />;
+  return <ArticleList {...props} category="LIFE" tag="" />;
 });

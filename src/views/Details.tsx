@@ -1,24 +1,24 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+// import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 // import type { RootStackParamsList } from '../types/router'
-import type { RootStackParamsList } from '@/types/router';
-type Props = NativeStackScreenProps<RootStackParamsList, 'Details'>;
+// import type { RootStackParamsList } from '@/types/router';
+// type Props = NativeStackScreenProps<RootStackParamsList, 'Details'>;
 
-export default function Home({ route, navigation }: Props) {
+export default function Home({ route, navigation }: any) {
   return (
     <View style={styles.view}>
       <Text>Details {route.params.id}</Text>
-      <Button
+      {/* <Button
         title="Go to details algin ..."
         onPress={() =>
           navigation.push('Details', {
             id: String(Math.random()),
           })
         }
-      />
-      <Button title="go Home" onPress={() => navigation.navigate('Home')} />
+      /> */}
+      {/* <Button title="go Home" onPress={() => navigation.navigate('Home')} /> */}
       <Button title="go back" onPress={() => navigation.goBack()} />
       <Button
         title="set Params"

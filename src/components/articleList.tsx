@@ -1,23 +1,38 @@
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Avatar, Icon, Text, ListItem, useTheme } from '@rneui/themed';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
+
+import { useNavigation } from '@react-navigation/native';
+
 import { useStore } from '@/hook/useStore';
 import ListEmpty from '@/components/ListEmpty';
 import ListFooter from '@/components/ListFooter';
 import { ArticleItem } from '@/types/article';
-
 import avatar from '@/assets/avatar.jpg';
-import { computed } from 'mobx';
 
 type Props = {
   category: 'TECHNICAL' | 'LIFE' | 'PRIVACY' | 'DRAFT';
   tag: string;
 };
 
-export default observer(({ category, tag }: Props) => {
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { DrawerScreenProps } from '@react-navigation/drawer';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import type { HomeParamsList, RootStackParamsList } from '@/types/router';
+
+// type ListProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
+type ListProps = CompositeScreenProps<
+  DrawerScreenProps<HomeParamsList, 'Technology' | 'Life'>,
+  NativeStackScreenProps<RootStackParamsList>
+>;
+
+export default observer(({ category, tag, navigation }: ListProps & Props) => {
   const { articleStore } = useStore();
   const { theme } = useTheme();
+  // const navigation = useNavigation<ListProps['navigation']>();
 
   const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
 
@@ -43,7 +58,14 @@ export default observer(({ category, tag }: Props) => {
 
   // 列表项
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
-    <ListItem bottomDivider>
+    <ListItem
+      bottomDivider
+      onPress={() =>
+        navigation.navigate('Details', {
+          id: article._id,
+        })
+      }
+    >
       <ListItem.Content>
         <View style={styles.header}>
           <Avatar
@@ -104,16 +126,8 @@ export default observer(({ category, tag }: Props) => {
         onEndReached={loadmore}
         onEndReachedThreshold={0.95}
         keyExtractor={(item) => item._id}
-        ListEmptyComponent={() => (
-          <ListEmpty length={data.list.length} inited={data.inited} />
-        )}
-        ListFooterComponent={() => (
-          <ListFooter
-            hasNext={data.meta.hasNext || false}
-            inited={data.inited}
-            loginStatus={data.loginStatus}
-          />
-        )}
+        ListEmptyComponent={() => <ListEmpty category={category} tag={tag} />}
+        ListFooterComponent={() => <ListFooter category={category} tag={tag} />}
       />
     </View>
   );

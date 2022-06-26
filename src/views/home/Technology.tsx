@@ -7,25 +7,36 @@ import { useStore } from '@/hook/useStore';
 import { LargeSize } from '@/constant';
 import ArticleList from '@/components/articleList';
 
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { DrawerScreenProps } from '@react-navigation/drawer';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import type { HomeParamsList, RootStackParamsList } from '@/types/router';
+
+type ListProps = CompositeScreenProps<
+  DrawerScreenProps<HomeParamsList, 'Technology'>,
+  NativeStackScreenProps<RootStackParamsList, 'Home', 'rootStack'>
+>;
+
 const Tab = createMaterialTopTabNavigator();
 
-export default observer(function Technology({ navigation }: any) {
+export default observer(function Technology(props: ListProps) {
   const dimensions = useWindowDimensions();
   const { tagStore } = useStore();
 
   useLayoutEffect(() => {
-    navigation.getParent('rootStack').setOptions({
+    props.navigation.getParent('rootStack')?.setOptions({
       headerLeft: () =>
         dimensions.width < LargeSize ? (
           <Icon
             name="view"
             type="iconfont"
-            onPress={() => navigation.toggleDrawer()}
+            onPress={() => props.navigation.toggleDrawer()}
             style={{ marginHorizontal: 10 }}
           />
         ) : null,
     });
-  }, [navigation, dimensions]);
+  }, [props.navigation, dimensions]);
 
   return (
     <Tab.Navigator
@@ -41,7 +52,11 @@ export default observer(function Technology({ navigation }: any) {
       {tagStore.data.map((tag) => (
         <Tab.Screen key={tag._id} name={tag.name}>
           {(props) => (
-            <ArticleList {...props} category="TECHNICAL" tag={tag._id} />
+            <ArticleList
+              {...(props as ListProps)}
+              category="TECHNICAL"
+              tag={tag._id}
+            />
           )}
         </Tab.Screen>
       ))}
