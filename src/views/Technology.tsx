@@ -1,34 +1,17 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { useWindowDimensions } from 'react-native';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Button, Icon } from '@rneui/themed';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
-import { LargeSize } from '@/constant';
 import ArticleList from '@/components/articleList';
-
+import Details from '@/views/Details';
 import type { ScreenProps } from '@/types/router';
 
+const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-export default observer(function Technology(props: ScreenProps<'Technology'>) {
-  // const dimensions = useWindowDimensions();
+const Home = observer(() => {
   const { tagStore } = useStore();
-
-  // useLayoutEffect(() => {
-  //   props.navigation.getParent('rootStack')?.setOptions({
-  //     headerLeft: () =>
-  //       dimensions.width < LargeSize ? (
-  //         <Icon
-  //           name="view"
-  //           type="iconfont"
-  //           onPress={() => props.navigation.toggleDrawer()}
-  //           style={{ marginHorizontal: 10 }}
-  //         />
-  //       ) : null,
-  //   });
-  // }, [props.navigation, dimensions]);
-
   return (
     <Tab.Navigator
       screenOptions={{
@@ -52,5 +35,14 @@ export default observer(function Technology(props: ScreenProps<'Technology'>) {
         </Tab.Screen>
       ))}
     </Tab.Navigator>
+  );
+});
+
+export default observer(function Technology(props: ScreenProps<'Technology'>) {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home}></Stack.Screen>
+      <Stack.Screen name="Details" component={Details}></Stack.Screen>
+    </Stack.Navigator>
   );
 });

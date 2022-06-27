@@ -30,40 +30,32 @@ export default class TagStore {
   }
 
   get linking() {
-    const res = this.data.reduce(
-      (prev, item) => {
-        return {
-          ...prev,
-          [item.name]: item.name,
-        };
-      },
-      { All: 'all' }
-    );
+    const res = this.data.reduce((prev, item) => {
+      return {
+        ...prev,
+        [item.name]: item.name,
+      };
+    }, {});
     return {
       prefixes: [''],
       config: {
         screens: {
+          Technology: {
+            path: '/',
+            exact: true,
+            screens: res,
+          },
+          Life: {
+            path: 'life',
+            exact: true,
+          },
+          About: {
+            path: 'about',
+            exact: true,
+          },
           Login: 'login',
           Details: {
             path: 'details/:id',
-          },
-          Home: {
-            path: 'home',
-            screens: {
-              Technology: {
-                path: 'technology',
-                exact: true,
-                screens: res,
-              },
-              Life: {
-                path: 'life',
-                exact: true,
-              },
-              About: {
-                path: 'about',
-                exact: true,
-              },
-            },
           },
         },
       },

@@ -45,7 +45,7 @@ export default observer(function AppRouter() {
           name="Technology"
           component={Technology}
           options={{
-            title: '技术',
+            title: '首页',
           }}
         />
         <DrawerStack.Screen
@@ -70,8 +70,6 @@ export default observer(function AppRouter() {
           }}
           options={({ route }) => ({
             title: String(route.params.id),
-            drawerLabel: () => null,
-            drawerItemStyle: { display: 'none' },
           })}
         />
         <DrawerStack.Screen
