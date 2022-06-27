@@ -5,10 +5,15 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
 import ArticleList from '@/components/articleList';
 import Details from '@/views/Details';
-import type { ScreenProps } from '@/types/router';
 
-const Stack = createNativeStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+import type {
+  ScreenProps,
+  TechnologyParamsList,
+  TechnologyTabParamsList,
+} from '@/types/router';
+
+const Stack = createNativeStackNavigator<TechnologyParamsList>();
+const Tab = createMaterialTopTabNavigator<TechnologyTabParamsList>();
 
 const Home = observer(() => {
   const { tagStore } = useStore();
@@ -26,11 +31,7 @@ const Home = observer(() => {
       {tagStore.data.map((tag) => (
         <Tab.Screen key={tag._id} name={tag.name}>
           {(props) => (
-            <ArticleList
-              {...(props as ScreenProps<'Technology'>)}
-              category="TECHNICAL"
-              tag={tag._id}
-            />
+            <ArticleList {...props} category="TECHNICAL" tag={tag._id} />
           )}
         </Tab.Screen>
       ))}
@@ -41,7 +42,13 @@ const Home = observer(() => {
 export default observer(function Technology(props: ScreenProps<'Technology'>) {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home}></Stack.Screen>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      ></Stack.Screen>
       <Stack.Screen name="Details" component={Details}></Stack.Screen>
     </Stack.Navigator>
   );

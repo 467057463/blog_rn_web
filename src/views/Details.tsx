@@ -1,37 +1,49 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-// import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import { Text } from '@rneui/themed';
+import { getArticle } from '@/api/article';
 
-// import type { RootStackParamsList } from '../types/router'
-// import type { RootStackParamsList } from '@/types/router';
-// type Props = NativeStackScreenProps<RootStackParamsList, 'Details'>;
+import type { StatusType } from '@/types/util';
+import type { ArticleItem } from '@/types/article';
 
-export default function Home({ route, navigation }: any) {
+export default observer(function Details({ route, navigation }: any) {
+  const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
+  const [article, setArticle] = useState<ArticleItem>();
+
+  async function fetchData() {
+    try {
+      setLoadingStatus('loading');
+      const res = await getArticle(route.params.id);
+      setArticle(res.result);
+      // console.log(res.result);
+      setLoadingStatus('success');
+    } catch (error) {
+      setLoadingStatus('error');
+    }
+  }
+
+  useEffect(() => {
+    navigation.getParent().setOptions({
+      headerShown: false,
+    });
+    fetchData();
+    navigation.setOptions({
+      title: route.params.title,
+    });
+    return () => {
+      navigation.getParent().setOptions({
+        headerShown: true,
+      });
+    };
+  }, []);
+
   return (
     <View style={styles.view}>
-      <Text>Details {route.params.id}</Text>
-      {/* <Button
-        title="Go to details algin ..."
-        onPress={() =>
-          navigation.push('Details', {
-            id: String(Math.random()),
-          })
-        }
-      /> */}
-      {/* <Button title="go Home" onPress={() => navigation.navigate('Home')} /> */}
-      <Button title="go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="set Params"
-        onPress={() => navigation.setParams({ id: '55555' })}
-      />
-
-      {/* <Button
-        title="GO TO USER"
-        onPress={() => navigation.navigate('Home', {screen: 'User'}) }
-      /> */}
+      <Text>{article?.content}</Text>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   view: {

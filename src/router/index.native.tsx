@@ -46,13 +46,13 @@ export default observer(function AppRouter() {
             title: '首页',
           }}
         /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{
             title: '登录',
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

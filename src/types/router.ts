@@ -3,21 +3,31 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 // root 路由参数
 export type RootStackParamsList = {
-  // Home: NavigatorScreenParams<HomeParamsList>;
-  Technology: undefined;
-  Life: undefined;
+  Technology: NavigatorScreenParams<TechnologyParamsList>;
+  Life: NavigatorScreenParams<LifeParamsList>;
   About: undefined;
+  // Details: {
+  //   id: string;
+  // };
+  // Login: undefined;
+};
+
+// Technology 路由参数
+export type TechnologyParamsList = {
+  Home: NavigatorScreenParams<TechnologyTabParamsList>;
   Details: {
     id: string;
   };
-  Login: undefined;
 };
 
-// home 路由参数
-export type HomeParamsList = {
-  Technology: undefined;
-  Life: undefined;
-  About: undefined;
+// Technology tab 路由参数
+export type TechnologyTabParamsList = {
+  [K: string]: undefined;
+};
+
+// Life 路由参数
+export type LifeParamsList = {
+  Home: undefined;
   Details: {
     id: string;
   };

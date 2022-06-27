@@ -18,6 +18,7 @@ export type ArticleItem = {
   updatedAt: string;
   _id: string;
 };
+
 export type GetArticlesRespon = {
   list: ArticleItem[];
   meta: {

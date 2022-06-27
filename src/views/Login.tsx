@@ -7,10 +7,7 @@ import { useStore } from '@/hook/useStore';
 
 import type { ScreenProps } from '@/types/router';
 
-export default observer(function Login({
-  route,
-  navigation,
-}: ScreenProps<'Login'>) {
+export default observer(function Login({ route, navigation }: any) {
   const { userStore } = useStore();
 
   const {

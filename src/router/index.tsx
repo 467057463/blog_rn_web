@@ -62,7 +62,7 @@ export default observer(function AppRouter() {
             title: '关于',
           }}
         />
-        <DrawerStack.Screen
+        {/* <DrawerStack.Screen
           name="Details"
           component={Details}
           initialParams={{
@@ -71,14 +71,14 @@ export default observer(function AppRouter() {
           options={({ route }) => ({
             title: String(route.params.id),
           })}
-        />
-        <DrawerStack.Screen
+        /> */}
+        {/* <DrawerStack.Screen
           name="Login"
           component={Login}
           options={{
             title: '登录',
           }}
-        />
+        /> */}
       </DrawerStack.Navigator>
     </NavigationContainer>
   );

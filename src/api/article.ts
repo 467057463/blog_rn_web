@@ -1,6 +1,6 @@
 import { request } from '@/utils';
 import type { RequestRespon } from '@/types/util';
-import type { GetArticlesRespon } from '@/types/article';
+import type { ArticleItem, GetArticlesRespon } from '@/types/article';
 
 type ArticleListRespon = RequestRespon<GetArticlesRespon>;
 
@@ -29,4 +29,8 @@ export function getArticles(category: string, tag: string, params?) {
   } else {
     return getTagArticles(tag, params);
   }
+}
+
+export function getArticle(id: string) {
+  return request.get<unknown, RequestRespon<ArticleItem>>(`/articles/${id}`);
 }
