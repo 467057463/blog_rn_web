@@ -31,6 +31,17 @@ export function getArticles(category: string, tag: string, params?) {
   }
 }
 
+// 获取文章详情
 export function getArticle(id: string) {
   return request.get<unknown, RequestRespon<ArticleItem>>(`/articles/${id}`);
+}
+
+// 文章点赞
+export function like(id: string) {
+  return request.post(`/api/v1/articles/${id}/like`);
+}
+
+// 文章阅读
+export function view(id: string) {
+  return request.post(`/api/v1/articles/${id}/view`);
 }
