@@ -1,19 +1,17 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Platform, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Text } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { useStore } from '@/hook/useStore';
-import Technology from '@/views/Technology';
-import Life from '@/views/Life';
-import About from '@/views/About';
+import Home from '@/views/home/index';
 import Details from '@/views/Details';
 import Login from '@/views/Login';
 
 import type { RootStackParamsList } from '@/types/router';
-const DrawerStack = createDrawerNavigator<RootStackParamsList>();
+const Stack = createNativeStackNavigator<RootStackParamsList>();
 
 export default observer(function AppRouter() {
   const store = useStore();
@@ -24,8 +22,8 @@ export default observer(function AppRouter() {
 
   if (store.loginStatus === 'loading') {
     return (
-      <View>
-        <Text>loading....</Text>
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
       </View>
     );
   }
@@ -40,46 +38,37 @@ export default observer(function AppRouter() {
 
   return (
     <NavigationContainer linking={store.tagStore.linking}>
-      <DrawerStack.Navigator>
-        <DrawerStack.Screen
-          name="Technology"
-          component={Technology}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
           options={{
             title: '首页',
+            headerShown: false,
           }}
         />
-        <DrawerStack.Screen
-          name="Life"
-          component={Life}
-          options={{
-            title: '随笔',
-          }}
-        />
-        <DrawerStack.Screen
-          name="About"
-          component={About}
-          options={{
-            title: '关于',
-          }}
-        />
-        {/* <DrawerStack.Screen
+        <Stack.Screen
           name="Details"
           component={Details}
-          initialParams={{
-            id: 'test',
-          }}
-          options={({ route }) => ({
-            title: String(route.params.id),
-          })}
-        /> */}
-        {/* <DrawerStack.Screen
-          name="Login"
-          component={Login}
           options={{
             title: '登录',
           }}
-        /> */}
-      </DrawerStack.Navigator>
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={({ route }: any) => ({
+            title: route.params.id,
+          })}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    flex: 1,
+  },
 });

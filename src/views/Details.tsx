@@ -28,18 +28,10 @@ export default observer(function Details({ route, navigation }: any) {
   }
 
   useEffect(() => {
-    navigation.getParent().setOptions({
-      headerShown: false,
-    });
     fetchData();
     navigation.setOptions({
       title: route.params.title,
     });
-    return () => {
-      navigation.getParent().setOptions({
-        headerShown: true,
-      });
-    };
   }, []);
 
   if (loadingStatus === 'loading') {
@@ -97,10 +89,13 @@ export default observer(function Details({ route, navigation }: any) {
         {!userStore.logined && (
           <View style={styles.actions}>
             <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
+              删除
+            </Button>
+            <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
               编辑
             </Button>
             <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
-              删除
+              编辑分类
             </Button>
           </View>
         )}

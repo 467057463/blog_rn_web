@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
 import { Text } from '@rneui/themed';
@@ -17,14 +17,21 @@ export default observer(({ category, tag }: Props) => {
 
   if (data.inited) {
     return (
-      <View>
-        <Text>暂无相关数据</Text>
+      <View style={styles.container}>
+        <Text>暂无相关数据...</Text>
       </View>
     );
   }
   return (
-    <View>
-      <Text>数据加载中...</Text>
+    <View style={styles.container}>
+      <ActivityIndicator size="large" />
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    flex: 1,
+  },
 });
