@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
 import { Text } from '@rneui/themed';
@@ -18,23 +18,46 @@ export default observer(({ category, tag }: Props) => {
   if (!data.inited || !data.list.length) {
     return null;
   }
-  if (data.loginStatus === 'loading') {
-    return (
-      <View>
-        <Text>加载中，请稍后...</Text>
-      </View>
-    );
-  }
-  if (!data.meta.hasNext) {
-    return (
-      <View>
-        <Text>暂无更多</Text>
-      </View>
-    );
-  }
   return (
-    <View>
-      <Text>滚动加载更多</Text>
+    <Footer
+      showLoading={data.loginStatus === 'loading'}
+      text={
+        data.loginStatus === 'loading'
+          ? '加载中，请稍后...'
+          : !data.meta.hasNext
+          ? '暂无更多'
+          : '滚动加载更多'
+      }
+    />
+  );
+});
+
+function Footer({
+  text = '滚动加载更多',
+  showLoading = false,
+}: {
+  text: string;
+  showLoading: boolean;
+}) {
+  return (
+    <View style={styles.container}>
+      {showLoading && <ActivityIndicator size="small" style={styles.icon} />}
+      <Text style={styles.text}>{text}</Text>
     </View>
   );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    height: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    marginRight: 10,
+  },
+  text: {
+    color: '#808080',
+  },
 });

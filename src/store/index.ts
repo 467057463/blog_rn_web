@@ -1,5 +1,4 @@
 import { configure, makeObservable, observable } from 'mobx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserStore from './user';
 import ArticleStore from './article';
 import TagStore from './tag';

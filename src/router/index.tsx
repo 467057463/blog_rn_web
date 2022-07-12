@@ -9,6 +9,8 @@ import { useStore } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
 import Login from '@/views/Login';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
 import type { RootStackParamsList } from '@/types/router';
 const Stack = createNativeStackNavigator<RootStackParamsList>();
@@ -21,19 +23,11 @@ export default observer(function AppRouter() {
   }, []);
 
   if (store.loginStatus === 'loading') {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
+    return <Loading />;
   }
 
   if (store.loginStatus === 'error') {
-    return (
-      <View>
-        <Text>error....</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (

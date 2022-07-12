@@ -16,6 +16,7 @@ export default observer(function Technology() {
           width: 'auto',
           minWidth: 30,
         },
+        swipeEnabled: false,
         lazy: true,
       }}
     >

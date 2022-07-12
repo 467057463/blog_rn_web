@@ -6,6 +6,10 @@ import { Text } from '@rneui/themed';
 import { computed } from 'mobx';
 import type { StatusType } from '@/types/util';
 
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import Empty from '@/components/Empty';
+
 type Props = {
   category: 'TECHNICAL' | 'LIFE' | 'PRIVACY' | 'DRAFT';
   tag: string;
@@ -16,22 +20,18 @@ export default observer(({ category, tag }: Props) => {
   const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
 
   if (data.inited) {
-    return (
-      <View style={styles.container}>
-        <Text>暂无相关数据...</Text>
-      </View>
-    );
+    return <Empty />;
   }
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" />
-    </View>
-  );
+  if (data.loginStatus === 'error') {
+    return <Error />;
+  }
+  return <Loading />;
 });
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    flex: 1,
+    // flex: 1,
+    height: '100%',
   },
 });

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Avatar, Icon, Text, ListItem, useTheme } from '@rneui/themed';
+import { Avatar, Icon, Text, ListItem, useTheme, Button } from '@rneui/themed';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
@@ -23,7 +23,7 @@ export default observer(({ category, tag, navigation }: any) => {
 
   // 加载更多
   function loadmore() {
-    if (!data.meta.hasNext) {
+    if (!data.meta.hasNext || data.loginStatus === 'loading') {
       return;
     }
     getList(category, tag, {
@@ -38,8 +38,24 @@ export default observer(({ category, tag, navigation }: any) => {
 
   // 列表项
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
-    <ListItem
+    <ListItem.Swipeable
       bottomDivider
+      leftContent={(reset) => (
+        <Button
+          title="Info"
+          onPress={() => reset()}
+          icon={{ name: 'info', color: 'white' }}
+          buttonStyle={{ minHeight: '100%' }}
+        />
+      )}
+      rightContent={(reset) => (
+        <Button
+          title="Delete"
+          onPress={() => reset()}
+          icon={{ name: 'delete', color: 'white' }}
+          buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+        />
+      )}
       onPress={() =>
         navigation.navigate('Details', {
           id: article._id,
@@ -55,15 +71,25 @@ export default observer(({ category, tag, navigation }: any) => {
             rounded
             containerStyle={styles.avatar}
           />
-          <Text style={styles.username}>{article.author.username}</Text>
+          <Text style={styles.username} selectable={false}>
+            {article.author.username}
+          </Text>
         </View>
         <View style={styles.body}>
           <Avatar source={avatar} containerStyle={styles.image} size={60} />
           <View style={styles.content}>
-            <ListItem.Title style={styles.title} numberOfLines={2}>
+            <ListItem.Title
+              style={styles.title}
+              numberOfLines={2}
+              selectable={false}
+            >
               {article.title}
             </ListItem.Title>
-            <ListItem.Subtitle style={styles.describe} numberOfLines={2}>
+            <ListItem.Subtitle
+              style={styles.describe}
+              numberOfLines={2}
+              selectable={false}
+            >
               如果想使用除了毫秒以外的单位进行比较，则将单位作为第二个参数传入。如果想使用除了毫秒以外的单位进行比较，则将单位作为第二个参数传入。
             </ListItem.Subtitle>
           </View>
@@ -76,7 +102,9 @@ export default observer(({ category, tag, navigation }: any) => {
               size={16}
               style={styles.metaIcon}
             />
-            <Text style={styles.metaText}>{article.meta.like}</Text>
+            <Text style={styles.metaText} selectable={false}>
+              {article.meta.like}
+            </Text>
           </View>
           <View style={styles.metaItem}>
             <Icon
@@ -85,27 +113,32 @@ export default observer(({ category, tag, navigation }: any) => {
               size={16}
               style={styles.metaIcon}
             />
-            <Text style={styles.metaText}>{article.meta.view}</Text>
+            <Text style={styles.metaText} selectable={false}>
+              {article.meta.view}
+            </Text>
           </View>
           {/* <View  style={styles.metaItem}>
           <Icon name="like" type="iconfont" />
           {article.meta.view}
         </View> */}
           <View style={styles.createdAt}>
-            <Text style={styles.createdAtText}>{article.createdAt}</Text>
+            <Text style={styles.createdAtText} selectable={false}>
+              {article.createdAt}
+            </Text>
           </View>
         </View>
       </ListItem.Content>
-    </ListItem>
+    </ListItem.Swipeable>
   );
 
   return (
     <View style={styles.container}>
       <FlatList
+        contentContainerStyle={styles.container}
         data={data.list}
         renderItem={renderItem}
         onEndReached={loadmore}
-        onEndReachedThreshold={0.95}
+        onEndReachedThreshold={0.1}
         keyExtractor={(item) => item._id}
         ListEmptyComponent={() => <ListEmpty category={category} tag={tag} />}
         ListFooterComponent={() => <ListFooter category={category} tag={tag} />}

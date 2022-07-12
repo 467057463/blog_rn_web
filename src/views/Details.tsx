@@ -10,6 +10,8 @@ import type { StatusType } from '@/types/util';
 import type { ArticleItem } from '@/types/article';
 import avatar from '@/assets/avatar.jpg';
 import { useStore } from '@/hook/useStore';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
 export default observer(function Details({ route, navigation }: any) {
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
@@ -35,11 +37,11 @@ export default observer(function Details({ route, navigation }: any) {
   }, []);
 
   if (loadingStatus === 'loading') {
-    return <Text>loading....</Text>;
+    return <Loading />;
   }
 
   if (loadingStatus === 'error') {
-    return <Text>error....</Text>;
+    return <Error />;
   }
 
   return (
