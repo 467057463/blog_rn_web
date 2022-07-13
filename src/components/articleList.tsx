@@ -9,6 +9,8 @@ import ListEmpty from '@/components/ListEmpty';
 import ListFooter from '@/components/ListFooter';
 import { ArticleItem } from '@/types/article';
 import avatar from '@/assets/avatar.jpg';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
 export default observer(({ category, tag, navigation }: any) => {
   const { articleStore } = useStore();
@@ -133,16 +135,21 @@ export default observer(({ category, tag, navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={styles.container}
-        data={data.list}
-        renderItem={renderItem}
-        onEndReached={loadmore}
-        onEndReachedThreshold={0.1}
-        keyExtractor={(item) => item._id}
-        ListEmptyComponent={() => <ListEmpty category={category} tag={tag} />}
-        ListFooterComponent={() => <ListFooter category={category} tag={tag} />}
-      />
+      {!data.inited && data.loginStatus === 'loading' && <Loading />}
+      {!data.inited && data.loginStatus === 'error' && <Error />}
+      {data.inited && (
+        <FlatList
+          data={data.list}
+          renderItem={renderItem}
+          onEndReached={loadmore}
+          onEndReachedThreshold={0.1}
+          keyExtractor={(item) => item._id}
+          ListEmptyComponent={() => <ListEmpty category={category} tag={tag} />}
+          ListFooterComponent={() => (
+            <ListFooter category={category} tag={tag} />
+          )}
+        />
+      )}
     </View>
   );
 });
