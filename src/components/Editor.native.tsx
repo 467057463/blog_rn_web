@@ -9,8 +9,8 @@ export default observer(function MarkdownEditor() {
       originWhitelist={['*']}
       source={
         Platform.OS === 'ios'
-          ? require('@/assets/markdown-viewer/index.html')
-          : { uri: 'file:///android_asset/markdown-viewer/index.html' }
+          ? require('@/assets/markdown-editor/index.html')
+          : { uri: 'file:///android_asset/markdown-editor/index.html' }
       }
       // style={{
       //   height: Dimensions.get('window').height,

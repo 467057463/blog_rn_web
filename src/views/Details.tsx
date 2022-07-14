@@ -12,6 +12,7 @@ import avatar from '@/assets/avatar.jpg';
 import { useStore } from '@/hook/useStore';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+import dayjs from 'dayjs';
 
 export default observer(function Details({ route, navigation }: any) {
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
@@ -72,7 +73,9 @@ export default observer(function Details({ route, navigation }: any) {
           <Text style={styles.metaText}>{article?.meta.view}</Text>
         </View>
         <View style={styles.createdAt}>
-          <Text style={styles.createdAtText}>{article?.createdAt}</Text>
+          <Text style={styles.createdAtText}>
+            {dayjs(article?.createdAt).format('YYYY/MM/DD HH:mm:ss')}
+          </Text>
         </View>
       </View>
 
@@ -82,13 +85,13 @@ export default observer(function Details({ route, navigation }: any) {
             reverse
             name="view"
             type="iconfont"
-            color="#2089dc"
+            color="#fe9404"
             onPress={() => console.log('hello')}
           />
-          <Text style={styles.likeText}>点赞</Text>
+          <Text style={styles.likeText}>点赞鼓励一下！</Text>
         </View>
 
-        {!userStore.logined && (
+        {/* {!userStore.logined && (
           <View style={styles.actions}>
             <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
               删除
@@ -100,7 +103,7 @@ export default observer(function Details({ route, navigation }: any) {
               编辑分类
             </Button>
           </View>
-        )}
+        )} */}
       </View>
     </ScrollView>
   );

@@ -9,6 +9,9 @@ export type RootStackParamsList = {
     id: string;
     title: string;
   };
+  Edit: {
+    id: string;
+  };
 };
 
 // root 路由参数

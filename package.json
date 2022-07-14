@@ -13,6 +13,9 @@
     "prettier:write": "prettier --write **/*.{js,jsx,ts,tsx,json} && prettier --write *.{js,jsx,ts,tsx,json}"
   },
   "dependencies": {
+    "@bytemd/plugin-gfm": "^1.17.1",
+    "@bytemd/plugin-highlight": "^1.17.1",
+    "@bytemd/react": "^1.17.1",
     "@react-native-async-storage/async-storage": "^1.17.6",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.4.1",
@@ -22,6 +25,7 @@
     "@rneui/base": "^4.0.0-rc.4",
     "@rneui/themed": "^4.0.0-rc.4",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.3",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "react": "17.0.2",
@@ -39,6 +43,7 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "^0.17.7",
+    "react-native-webview": "^11.22.7",
     "react-scripts": "^5.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1"

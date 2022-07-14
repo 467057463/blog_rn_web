@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useStore } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
+import Edit from '@/views/Edit';
 import Login from '@/views/Login';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -41,19 +42,20 @@ export default observer(function AppRouter() {
             headerShown: false,
           }}
         />
+        <Stack.Screen name="Details" component={Details} />
         <Stack.Screen
-          name="Details"
-          component={Details}
+          name="Edit"
+          component={Edit}
           options={{
-            title: '登录',
+            title: '文章编辑',
           }}
         />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={({ route }: any) => ({
-            title: route.params.id,
-          })}
+          options={{
+            title: '登录',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

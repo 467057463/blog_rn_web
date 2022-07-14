@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Avatar, Icon, Text, ListItem, useTheme, Button } from '@rneui/themed';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import dayjs from 'dayjs';
 
 import { useStore } from '@/hook/useStore';
 import ListEmpty from '@/components/ListEmpty';
@@ -42,22 +43,45 @@ export default observer(({ category, tag, navigation }: any) => {
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
     <ListItem.Swipeable
       bottomDivider
-      leftContent={(reset) => (
-        <Button
-          title="Info"
-          onPress={() => reset()}
-          icon={{ name: 'info', color: 'white' }}
-          buttonStyle={{ minHeight: '100%' }}
-        />
-      )}
       rightContent={(reset) => (
-        <Button
-          title="Delete"
-          onPress={() => reset()}
-          icon={{ name: 'delete', color: 'white' }}
-          buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-        />
+        <>
+          <TouchableOpacity
+            style={[styles.articleButton, { backgroundColor: '#fe9404' }]}
+            onPress={() => {
+              navigation.navigate('Edit', {
+                id: article._id,
+              });
+              reset();
+            }}
+          >
+            <Icon name="like" type="iconfont" size={16} color="#fff" />
+            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>编辑</Text> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.articleButton, { backgroundColor: '#ff6d03' }]}
+            onPress={() => reset()}
+          >
+            <Icon name="like" type="iconfont" size={16} color="#fff" />
+            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>分类信息</Text> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.articleButton, { backgroundColor: '#ff3b32' }]}
+            onPress={() => reset()}
+          >
+            <Icon name="like" type="iconfont" size={16} color="#fff" />
+            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>删除</Text> */}
+          </TouchableOpacity>
+        </>
+        // <Button
+        //   title="Delete"
+        //   onPress={() => reset()}
+        //   icon={{ name: 'delete', color: 'white' }}
+        //   containerStyle={{ minHeight: '100%' }}
+        //   buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+        // />
       )}
+      rightWidth={120}
+      rightStyle={{ flexDirection: 'row' }}
       onPress={() =>
         navigation.navigate('Details', {
           id: article._id,
@@ -125,7 +149,7 @@ export default observer(({ category, tag, navigation }: any) => {
         </View> */}
           <View style={styles.createdAt}>
             <Text style={styles.createdAtText} selectable={false}>
-              {article.createdAt}
+              {dayjs(article.createdAt).format('YYYY/MM/DD HH:mm:ss')}
             </Text>
           </View>
         </View>
@@ -224,5 +248,10 @@ const styles = StyleSheet.create({
   },
   createdAtText: {
     color: '#808080',
+  },
+  articleButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
   },
 });
