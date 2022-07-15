@@ -12,10 +12,6 @@ export default observer(function MarkdownEditor() {
           ? require('@/assets/markdown-editor/index.html')
           : { uri: 'file:///android_asset/markdown-editor/index.html' }
       }
-      // style={{
-      //   height: Dimensions.get('window').height,
-      //   width: Dimensions.get('window').width,
-      // }}
     />
   );
 });
