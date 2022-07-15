@@ -23,7 +23,7 @@ export default observer(function Details({ route, navigation }: any) {
       setLoadingStatus('loading');
       const res = await getArticle(route.params.id);
       setArticle(res.result);
-      console.log(res.result);
+      // console.log(res.result);
       setLoadingStatus('success');
     } catch (error) {
       setLoadingStatus('error');
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 
   footer: {
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 25,
     paddingBottom: 15,
   },
   like: {

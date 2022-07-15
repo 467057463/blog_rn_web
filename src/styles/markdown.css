@@ -1,5 +1,5 @@
 .bytemd {
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh - 64px - 40px) !important;
 }
 .markdown-body pre code {
   border-radius: 0.3em;
@@ -72,18 +72,6 @@
   margin-bottom: 32px;
 }
 
-.linenumber {
-  position: absolute;
-  min-width: 2em !important;
-  /* text-align: left !important; */
-  left: 20px;
-  background: rgb(43, 43, 43);
-}
-
-pre > div {
-  padding-left: 3em !important;
-}
-
 .markdown-body p > code {
   word-break: break-word;
   border-radius: 2px;
@@ -93,28 +81,6 @@ pre > div {
   /* font-size: 0.87em; */
   /* padding: 0.065em 0.4em; */
 }
-
-/* .markdown-body code,
-.markdown-body pre {
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.markdown-body pre {
-  overflow: auto;
-  position: relative;
-  line-height: 1.75;
-} */
-
-/* .markdown-body pre > code {
-  font-size: 12px;
-  margin: 0;
-  word-break: normal;
-  display: block;
-  overflow-x: auto;
-  color: #333;
-} */
 
 .markdown-body a {
   text-decoration: none;

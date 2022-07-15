@@ -33,6 +33,7 @@
     "react-hook-form": "^7.32.0",
     "react-markdown": "^8.0.3",
     "react-native": "0.68.2",
+    "react-native-autoheight-webview": "^1.6.1",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-markdown-renderer": "^3.2.8",
     "react-native-pager-view": "^5.4.24",
