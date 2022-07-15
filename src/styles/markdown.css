@@ -1,5 +1,5 @@
 .bytemd {
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh - 64px - 40px) !important;
 }
 .markdown-body pre code {
   border-radius: 0.3em;
