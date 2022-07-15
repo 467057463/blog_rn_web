@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 5,
     color: '#000',
+    fontWeight: '700',
   },
   heading1: {
     fontSize: 30,
@@ -33,11 +34,13 @@ const styles = StyleSheet.create({
   },
   heading2: {
     fontSize: 24,
+    lineHeight: 36,
     borderBottomColor: '#ececec',
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
   },
   heading3: {
     fontSize: 18,
+    lineHeight: 30,
     paddingBottom: 0,
   },
   heading4: {
@@ -57,10 +60,13 @@ const styles = StyleSheet.create({
   },
 
   codeInline: {
-    paddingVertical: 3,
+    // paddingHorizontal: 3,
+    paddingLeft: 3,
+    paddingRight: 3,
     backgroundColor: '#fff5f5',
     color: '#ff502c',
     borderRadius: 2,
+    marginHorizontal: 3,
   },
 
   blockquote: {
@@ -92,12 +98,31 @@ const styles = StyleSheet.create({
 
   listUnorderedItemIcon: {
     // fontSize: 24,
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: '#808080',
-    marginTop: 17,
-    marginRight: 5,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#333333',
+    marginTop: 20,
+    marginRight: 10,
+    marginLeft: 5,
+  },
+
+  listOrderedItemIcon: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 13,
+    color: '#333333',
+  },
+
+  link: {
+    textDecorationLine: 'underline',
+    color: '#0b57d0',
+  },
+
+  text: {
+    color: '#333333',
+    fontSize: 16,
+    lineHeight: 24,
   },
 });
 

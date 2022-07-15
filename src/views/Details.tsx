@@ -138,6 +138,8 @@ const styles = StyleSheet.create({
   },
   markdown: {
     paddingHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   metaInfo: {
     color: '#808080',
