@@ -1,4 +1,5 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Text, Icon } from '@rneui/themed';
 
 export default ({ prompt = '发生了错误请稍后再试' }: { prompt?: string }) => (

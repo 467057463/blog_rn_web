@@ -10,8 +10,8 @@ import 'bytemd/dist/index.css';
 import 'highlight.js/styles/a11y-dark.css';
 import '@/styles/markdown.css';
 
-export default observer(function MarkdownEditor() {
-  const [content, setContent] = useState('');
+export default observer(function MarkdownEditor({ onChange, value }: any) {
+  const [content, setContent] = useState(value);
 
   return (
     <Editor
@@ -19,6 +19,7 @@ export default observer(function MarkdownEditor() {
       value={content}
       onChange={(value) => {
         setContent(value);
+        onChange(value);
       }}
     />
   );

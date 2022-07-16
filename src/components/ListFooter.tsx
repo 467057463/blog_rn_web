@@ -41,7 +41,9 @@ function Footer({
 }) {
   return (
     <View style={styles.container}>
-      {showLoading && <ActivityIndicator size="small" style={styles.icon} />}
+      {showLoading && (
+        <ActivityIndicator color="#007aff" size="small" style={styles.icon} />
+      )}
       <Text style={styles.text}>{text}</Text>
     </View>
   );

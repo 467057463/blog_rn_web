@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hook/useStore';
 import { Text } from '@rneui/themed';

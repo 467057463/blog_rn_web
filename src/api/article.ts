@@ -43,5 +43,13 @@ export function like(id: string) {
 
 // 文章阅读
 export function view(id: string) {
-  return request.post(`/api/v1/articles/${id}/view`);
+  return request.post(`articles/${id}/view`);
+}
+
+// 更新文章
+export function updateArticle(
+  id: string,
+  params: { title: string; content: string }
+) {
+  return request.put(`/articles/${id}`, params);
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Editor } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
@@ -9,17 +10,17 @@ import './markdown.css';
 
 const plugins = [gfm(), highlight()];
 
-function App() {
-  const [content, setContent] = useState('');
+const App = observer(({ store }) => {
   return (
     <Editor
       plugins={plugins}
-      value={content}
+      value={store.content}
       onChange={(value) => {
-        setContent(value);
+        store.content  = value;
+        window.ReactNativeWebView.postMessage(value)
       }}
     />
   );
-}
+})
 
 export default App;
