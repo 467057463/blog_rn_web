@@ -16,11 +16,11 @@ const App = observer(({ store }) => {
       plugins={plugins}
       value={store.content}
       onChange={(value) => {
-        store.content  = value;
-        window.ReactNativeWebView.postMessage(value)
+        store.content = value;
+        window.ReactNativeWebView.postMessage(value);
       }}
     />
   );
-})
+});
 
 export default App;

@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Markdown from 'react-native-markdown-renderer';
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
-import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import a11yDark from '@/assets/a11y-dark';
 
 const rules = {
   fence: (node, children, parent, styles) => {

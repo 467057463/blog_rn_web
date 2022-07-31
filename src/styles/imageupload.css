@@ -1,0 +1,38 @@
+.upload__image-wrapper {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 5px;
+  width: 152px;
+  height: 152px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.image-wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.remove-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  background: red;
+  cursor: pointer;
+  z-index: 2;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+}
+
+.uploader-button {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

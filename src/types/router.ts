@@ -12,6 +12,9 @@ export type RootStackParamsList = {
   Edit: {
     id: string;
   };
+  EditCategory: {
+    id: string;
+  };
 };
 
 // root 路由参数

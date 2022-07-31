@@ -9,6 +9,7 @@ import { useStore } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
 import Edit from '@/views/Edit';
+import EditCategory from '@/views/EditCategory';
 import Login from '@/views/Login';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -48,6 +49,13 @@ export default observer(function AppRouter() {
           component={Edit}
           options={{
             title: '文章编辑',
+          }}
+        />
+        <Stack.Screen
+          name="EditCategory"
+          component={EditCategory}
+          options={{
+            title: '编辑文章信息',
           }}
         />
         <Stack.Screen

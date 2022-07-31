@@ -59,7 +59,12 @@ export default observer(({ category, tag, navigation }: any) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.articleButton, { backgroundColor: '#ff6d03' }]}
-            onPress={() => reset()}
+            onPress={() => {
+              navigation.navigate('EditCategory', {
+                id: article._id,
+              });
+              reset();
+            }}
           >
             <Icon name="like" type="iconfont" size={16} color="#fff" />
             {/* <Text style={{ color: '#fff', textAlign: 'center' }}>分类信息</Text> */}
