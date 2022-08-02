@@ -47,7 +47,9 @@ export default observer(function Details({ route, navigation }: any) {
 
   return (
     <ScrollView style={styles.view}>
-      <Image source={require('@/assets/banner.png')} style={styles.image} />
+      {!!article?.cover && (
+        <Image source={{ uri: article?.cover }} style={styles.image} />
+      )}
       <Text style={styles.title} numberOfLines={2}>
         {article?.title}
       </Text>
@@ -83,7 +85,7 @@ export default observer(function Details({ route, navigation }: any) {
         <View style={styles.like}>
           <Icon
             reverse
-            name="view"
+            name="good"
             type="iconfont"
             color="#fe9404"
             onPress={() => console.log('hello')}

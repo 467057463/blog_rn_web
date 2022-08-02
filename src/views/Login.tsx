@@ -77,7 +77,7 @@ export default observer(function Login({ route, navigation }: any) {
               placeholder="请输入密码"
               secureTextEntry={true}
               errorMessage={errors.password?.message}
-              leftIcon={{ type: 'iconfont', name: 'like' }}
+              leftIcon={{ type: 'iconfont', name: 'lock' }}
               containerStyle={styles.containerStyle}
               inputContainerStyle={styles.inputContainerStyle}
               leftIconContainerStyle={styles.leftIconContainerStyle}

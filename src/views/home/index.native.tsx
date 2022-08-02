@@ -4,18 +4,31 @@ import Life from './Life';
 import About from './About';
 import Iconfont from 'react-native-vector-icons/Iconfont';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image } from '@rneui/themed';
 
 const TabStack = createBottomTabNavigator();
+
 export default function Home() {
   return (
-    <TabStack.Navigator>
+    <TabStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#007aff',
+        },
+        headerTintColor: '#fff',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
       <TabStack.Screen
         name="Technology"
         component={Technology}
         options={{
           title: '技术',
           tabBarIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="technology" size={size} color={color} />
           ),
         }}
       />
@@ -25,7 +38,7 @@ export default function Home() {
         options={{
           title: '随笔',
           tabBarIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="life" size={size} color={color} />
           ),
         }}
       />
@@ -35,8 +48,9 @@ export default function Home() {
         options={{
           title: '关于',
           tabBarIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="about" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </TabStack.Navigator>

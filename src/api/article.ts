@@ -53,3 +53,10 @@ export function updateArticle(
 ) {
   return request.put(`/articles/${id}`, params);
 }
+
+// 更新文章分类等信息
+export function updateArticleInfo(id: string, params: FormData) {
+  return request.post(`/articles/${id}/update_info`, params, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}

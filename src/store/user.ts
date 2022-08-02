@@ -14,7 +14,7 @@ type UserData = {
 export default class UserStore {
   rootStore: RootStore;
   inited: boolean = false;
-  logined: boolean = false;
+  // logined: boolean = false;
   data?: UserData = undefined;
 
   constructor(rootStore) {
@@ -22,10 +22,14 @@ export default class UserStore {
     this.rootStore = rootStore;
   }
 
+  get logined() {
+    return this.data ? true : false;
+  }
+
   async init() {
     const res = await AsyncStorage.getItem('user');
     if (res) {
-      this.logined = true;
+      // this.logined = true;
       this.data = JSON.parse(res);
     }
   }
@@ -48,5 +52,13 @@ export default class UserStore {
   }
 
   // 退出
-  logout() {}
+  async logout() {
+    try {
+      await AsyncStorage.removeItem('user');
+      this.data = undefined;
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  }
 }

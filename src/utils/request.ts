@@ -3,6 +3,7 @@ import rootStore from '@/store';
 
 export const request = axios.create({
   baseURL: 'https://api.mmisme.cn/api/v1/',
+  // baseURL: 'http://localhost:7001/api/v1/',
   timeout: 20000,
 });
 

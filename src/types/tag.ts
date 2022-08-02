@@ -4,3 +4,9 @@ export type TagItem = {
 };
 
 export type GetTagRespon = TagItem[];
+
+export type AddTagRespon = {
+  _id: string;
+  name: string;
+  articles: any[];
+};

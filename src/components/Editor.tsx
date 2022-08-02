@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
@@ -11,7 +11,11 @@ import 'highlight.js/styles/a11y-dark.css';
 import '@/styles/markdown.css';
 
 export default observer(function MarkdownEditor({ onChange, value }: any) {
-  const [content, setContent] = useState(value);
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    setContent(value);
+  }, []);
 
   return (
     <Editor

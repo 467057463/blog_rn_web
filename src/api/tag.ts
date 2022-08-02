@@ -1,17 +1,17 @@
 import { request } from '@/utils';
 import type { RequestRespon } from '@/types/util';
-import type { GetTagRespon } from '@/types/tag';
+import type { GetTagRespon, AddTagRespon } from '@/types/tag';
 
 const defaultTag = [
-  { name: 'css', _id: 'css' },
-  { name: 'js', _id: 'js' },
-  { name: 'typescript', _id: 'typescript' },
-  { name: 'vue', _id: 'vue' },
-  { name: 'react', _id: 'react' },
-  { name: '动画', _id: 'animation' },
-  { name: '工具', _id: 'tool' },
-  { name: 'git', _id: 'git' },
-  { name: 'node', _id: 'node' },
+  // { name: 'css', _id: 'css' },
+  // { name: 'js', _id: 'js' },
+  // { name: 'typescript', _id: 'typescript' },
+  // { name: 'vue', _id: 'vue' },
+  // { name: 'react', _id: 'react' },
+  // { name: '动画', _id: 'animation' },
+  // { name: '工具', _id: 'tool' },
+  // { name: 'git', _id: 'git' },
+  // { name: 'node', _id: 'node' },
 ];
 
 // 获取所以标签
@@ -24,4 +24,11 @@ export async function getTags() {
   } catch (error) {
     return Promise.reject(error);
   }
+}
+
+// 添加标签
+export async function addTag(params) {
+  return request.post<unknown, RequestRespon<AddTagRespon>>('/tags', {
+    name: params,
+  });
 }

@@ -86,6 +86,7 @@ export default observer(function Edit({ route, navigation }: any) {
           size="sm"
           containerStyle={{ marginRight: 15 }}
           type="clear"
+          titleStyle={{ color: '#fff' }}
         >
           保存
         </Button>
@@ -118,6 +119,8 @@ export default observer(function Edit({ route, navigation }: any) {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            multiline={true}
+            numberOfLines={2}
             placeholder="请输入文章标题"
             errorStyle={{ display: 'none' }}
             inputContainerStyle={{ borderBottomWidth: 0 }}

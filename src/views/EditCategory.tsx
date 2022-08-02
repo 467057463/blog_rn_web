@@ -6,8 +6,16 @@ import { useForm, Controller } from 'react-hook-form';
 import FileInput from '@/components/FileInput';
 import TagInput from '@/components/TagInput';
 import { Picker } from '@react-native-picker/picker';
+import { getArticle, updateArticleInfo } from '@/api/article';
+import type { StatusType } from '@/types/util';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import ModalLoading from '@/components/ModalLoading';
 
 export default observer(function EditCategory({ route, navigation }: any) {
+  // data
+  const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   // form
   const {
     control,
@@ -18,17 +26,77 @@ export default observer(function EditCategory({ route, navigation }: any) {
     defaultValues: {
       describe: '',
       cover: '',
-      category: '',
-      tags: '',
+      category: 'DRAFT',
+      tags: [] as string[],
+      removeCover: false,
+      title: '',
     },
   });
+
+  // method
+  // 获取数据
+  async function fetchData() {
+    try {
+      setLoadingStatus('loading');
+      const res = await getArticle(route.params.id);
+      setValue('describe', res.result.describe);
+      setValue('cover', res.result.cover);
+      setValue('category', res.result.category);
+      setValue('title', res.result.title);
+      setValue(
+        'tags',
+        res.result.tags.map((item) => item._id)
+      );
+      setLoadingStatus('success');
+    } catch (error) {
+      setLoadingStatus('error');
+    }
+  }
+
+  function handleRemoveCover(value) {
+    setValue('removeCover', value);
+  }
+
   // 提交
   async function onSubmit(data) {
     console.log(data);
+    const formData = new FormData();
+    if (data.cover) {
+      formData.append('cover', data.cover);
+    }
+    if (data.describe) {
+      formData.append('describe', data.describe);
+    }
+    if (data.category) {
+      formData.append('category', data.category);
+    }
+    if (data.tags) {
+      formData.append('tags', JSON.stringify(data.tags));
+    }
+    if (data.removeCover) {
+      formData.append('removeCover', data.removeCover);
+    }
+    try {
+      setSubmitLoading(true);
+      await updateArticleInfo(route.params.id, formData);
+      setSubmitLoading(false);
+      console.log(data.title);
+      navigation.navigate('Details', {
+        id: route.params.id,
+        title: data.title,
+      });
+    } catch (error) {
+      console.error(error);
+      setSubmitLoading(false);
+    }
   }
 
   // 错误验证
   const SubmitErrorHandler = (error) => console.log(error);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // 保存按钮
   useLayoutEffect(() => {
@@ -39,6 +107,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
           size="sm"
           containerStyle={{ marginRight: 15 }}
           type="clear"
+          titleStyle={{ color: '#fff' }}
         >
           保存
         </Button>
@@ -46,29 +115,43 @@ export default observer(function EditCategory({ route, navigation }: any) {
     });
   }, [navigation]);
 
+  if (loadingStatus === 'loading') {
+    return <Loading />;
+  }
+
+  if (loadingStatus === 'error') {
+    return <Error />;
+  }
+
   return (
     <View style={{ flex: 1 }}>
       {/* 描述 */}
       <Controller
         name="describe"
         control={control}
-        rules={{
-          required: {
-            value: true,
-            message: '不能为空',
-          },
-        }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>文章简介</Text>
-            <View style={styles.inputWrapper}>
+            <View>
+              <Text style={styles.label}>文章简介</Text>
+            </View>
+            <View style={[styles.inputWrapper]}>
               <Input
                 multiline={true}
                 numberOfLines={4}
+                textAlignVertical="top"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
                 placeholder="请添加文章简介"
+                errorMessage={errors.describe?.message}
+                containerStyle={{
+                  paddingHorizontal: 0,
+                  paddingVertical: 0,
+                  marginHorizontal: 0,
+                }}
+                inputContainerStyle={{
+                  borderBottomWidth: 0,
+                }}
               />
             </View>
           </View>
@@ -80,9 +163,15 @@ export default observer(function EditCategory({ route, navigation }: any) {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>文章图片</Text>
-            <View style={[styles.inputWrapper, { paddingHorizontal: 10 }]}>
-              <FileInput onChange={onChange} value={value} />
+            <View>
+              <Text style={styles.label}>文章图片</Text>
+            </View>
+            <View style={[styles.inputWrapper]}>
+              <FileInput
+                onChange={onChange}
+                onRemove={handleRemoveCover}
+                value={value}
+              />
             </View>
           </View>
         )}
@@ -93,14 +182,19 @@ export default observer(function EditCategory({ route, navigation }: any) {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>文章分类</Text>
-            <View style={[styles.inputWrapper, { paddingHorizontal: 10 }]}>
+            <View>
+              <Text style={styles.label}>文章分类</Text>
+            </View>
+            <View style={[styles.inputWrapper]}>
               <Picker
                 selectedValue={value}
                 onValueChange={(itemValue, itemIndex) => onChange(itemValue)}
+                style={{ marginHorizontal: 0, paddingHorizontal: 0 }}
               >
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
+                <Picker.Item label="技术" value="TECHNICAL" />
+                <Picker.Item label="随笔" value="LIFE" />
+                <Picker.Item label="日记" value="PRIVACY" />
+                <Picker.Item label="草稿" value="DRAFT" />
               </Picker>
             </View>
           </View>
@@ -113,29 +207,31 @@ export default observer(function EditCategory({ route, navigation }: any) {
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.inputContainer}>
             <Text style={styles.label}>文章标签</Text>
-            <View style={[styles.inputWrapper, { paddingHorizontal: 10 }]}>
-              <TagInput />
+            <View style={[styles.inputWrapper]}>
+              <TagInput onChange={onChange} value={value} />
             </View>
           </View>
         )}
       />
+      {/* loading */}
+      <ModalLoading visible={submitLoading} />
     </View>
   );
 });
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flexDirection: 'row',
-  },
-  label: {
-    paddingTop: 10,
-    height: 40,
-    fontSize: 16,
-    color: '#808080',
+    backgroundColor: '#fff',
+    marginBottom: 10,
     paddingHorizontal: 10,
   },
+  label: {
+    paddingVertical: 10,
+    fontSize: 18,
+    color: '#808080',
+  },
   inputWrapper: {
-    flex: 1,
-    paddingTop: 10,
+    // flex: 1,
+    // paddingTop: 10,
   },
 });

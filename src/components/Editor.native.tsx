@@ -8,7 +8,10 @@ export default observer(function MarkdownEditor({ onChange, value }: any) {
 
   // 初始化文章内容
   useEffect(() => {
-    webviewRef.current?.postMessage(value);
+    // console.log('webviewRef', webviewRef.current);
+    setTimeout(() => {
+      webviewRef.current?.postMessage(value);
+    }, 500);
   }, []);
 
   return (

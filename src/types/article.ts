@@ -7,13 +7,15 @@ export type ArticleItem = {
   comments: any[];
   content: string;
   createdAt: string;
+  cover: string;
+  describe: string;
   id: string;
   meta: {
     view: number;
     likeUsers: any[];
     like: number;
   };
-  tags: any[];
+  tags: { _id: string; name: string }[];
   title: string;
   updatedAt: string;
   _id: string;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Avatar, Icon, Text, ListItem, useTheme, Button } from '@rneui/themed';
+import { Avatar, Icon, Text, ListItem, useTheme, Image } from '@rneui/themed';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import dayjs from 'dayjs';
@@ -14,7 +14,7 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
 export default observer(({ category, tag, navigation }: any) => {
-  const { articleStore } = useStore();
+  const { articleStore, userStore } = useStore();
   const { theme } = useTheme();
 
   const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
@@ -39,9 +39,11 @@ export default observer(({ category, tag, navigation }: any) => {
     getList(category, tag);
   }, []);
 
+  const CustomTag = userStore.logined ? ListItem.Swipeable : ListItem;
+
   // 列表项
   const renderItem = ({ item: article }: { item: ArticleItem }) => (
-    <ListItem.Swipeable
+    <CustomTag
       bottomDivider
       rightContent={(reset) => (
         <>
@@ -54,8 +56,7 @@ export default observer(({ category, tag, navigation }: any) => {
               reset();
             }}
           >
-            <Icon name="like" type="iconfont" size={16} color="#fff" />
-            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>编辑</Text> */}
+            <Icon name="edit_info" type="iconfont" size={16} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.articleButton, { backgroundColor: '#ff6d03' }]}
@@ -66,24 +67,15 @@ export default observer(({ category, tag, navigation }: any) => {
               reset();
             }}
           >
-            <Icon name="like" type="iconfont" size={16} color="#fff" />
-            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>分类信息</Text> */}
+            <Icon name="edit" type="iconfont" size={16} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.articleButton, { backgroundColor: '#ff3b32' }]}
             onPress={() => reset()}
           >
-            <Icon name="like" type="iconfont" size={16} color="#fff" />
-            {/* <Text style={{ color: '#fff', textAlign: 'center' }}>删除</Text> */}
+            <Icon name="delete" type="iconfont" size={16} color="#fff" />
           </TouchableOpacity>
         </>
-        // <Button
-        //   title="Delete"
-        //   onPress={() => reset()}
-        //   icon={{ name: 'delete', color: 'white' }}
-        //   containerStyle={{ minHeight: '100%' }}
-        //   buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-        // />
       )}
       rightWidth={120}
       rightStyle={{ flexDirection: 'row' }}
@@ -107,7 +99,13 @@ export default observer(({ category, tag, navigation }: any) => {
           </Text>
         </View>
         <View style={styles.body}>
-          <Avatar source={avatar} containerStyle={styles.image} size={60} />
+          {!!article.cover && (
+            <Image
+              source={{ uri: article.cover }}
+              containerStyle={styles.image}
+              resizeMode="cover"
+            />
+          )}
           <View style={styles.content}>
             <ListItem.Title
               style={styles.title}
@@ -121,7 +119,7 @@ export default observer(({ category, tag, navigation }: any) => {
               numberOfLines={2}
               selectable={false}
             >
-              如果想使用除了毫秒以外的单位进行比较，则将单位作为第二个参数传入。如果想使用除了毫秒以外的单位进行比较，则将单位作为第二个参数传入。
+              {article.describe || '暂无描述'}
             </ListItem.Subtitle>
           </View>
         </View>
@@ -159,7 +157,7 @@ export default observer(({ category, tag, navigation }: any) => {
           </View>
         </View>
       </ListItem.Content>
-    </ListItem.Swipeable>
+    </CustomTag>
   );
 
   return (
@@ -211,6 +209,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: 10,
+    width: 100,
+    height: 82,
   },
   content: {
     flex: 1,

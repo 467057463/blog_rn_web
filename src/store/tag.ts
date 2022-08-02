@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from './index';
 import type { StatusType } from '@/types/util';
 import { delay } from '@/utils';
-import { getTags } from '@/api/tag';
+import { getTags, addTag } from '@/api/tag';
 import type { TagItem } from '@/types/tag';
 
 export default class TagStore {
@@ -25,6 +25,18 @@ export default class TagStore {
       return res;
     } catch (error) {
       this.loginStatus = 'error';
+      return Promise.reject(error);
+    }
+  }
+
+  async addTag(name) {
+    try {
+      const res = await addTag(name);
+      this.data.push({
+        _id: res.result._id,
+        name: res.result.name,
+      });
+    } catch (error) {
       return Promise.reject(error);
     }
   }

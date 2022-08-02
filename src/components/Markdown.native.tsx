@@ -96,7 +96,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
   },
-
+  listUnorderedItem: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    // width: '100%',
+    flex: 1,
+  },
   listUnorderedItemIcon: {
     // fontSize: 24,
     width: 6,
