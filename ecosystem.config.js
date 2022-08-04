@@ -22,7 +22,7 @@ module.exports = {
       path: '/var/www/blog_rn_web',
       'pre-deploy-local': '',
       'post-deploy':
-        'npm --production=false install --legacy-peer-deps && npm run build:web',
+        'npm --production=false install --legacy-peer-deps && cp ./icons/Iconfont.js ./node_modules/react-native-vector-icons/ && cp ./icons/Iconfont.json ./node_modules/react-native-vector-icons/glyphmaps/ && cp ./icons/Iconfont.ttf ./node_modules/react-native-vector-icons/Fonts/ && npm run build:web',
       'pre-setup': '',
       env: {
         NODE_ENV: 'production',
