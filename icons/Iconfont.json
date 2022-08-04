@@ -6,6 +6,20 @@
   "description": "个人博客项目",
   "glyphs": [
     {
+      "icon_id": "12978141",
+      "name": "编辑",
+      "font_class": "create",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "24056835",
+      "name": "草稿箱",
+      "font_class": "draft",
+      "unicode": "e70c",
+      "unicode_decimal": 59148
+    },
+    {
       "icon_id": "24656995",
       "name": "笔记本、笔记",
       "font_class": "life",
@@ -22,7 +36,7 @@
     {
       "icon_id": "26433316",
       "name": "编程",
-      "font_class": "echnology",
+      "font_class": "technology",
       "unicode": "e676",
       "unicode_decimal": 58998
     },

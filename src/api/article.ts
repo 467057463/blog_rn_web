@@ -36,16 +36,6 @@ export function getArticle(id: string) {
   return request.get<unknown, RequestRespon<ArticleItem>>(`/articles/${id}`);
 }
 
-// 文章点赞
-export function like(id: string) {
-  return request.post(`/api/v1/articles/${id}/like`);
-}
-
-// 文章阅读
-export function view(id: string) {
-  return request.post(`articles/${id}/view`);
-}
-
 // 更新文章
 export function updateArticle(
   id: string,
@@ -59,4 +49,24 @@ export function updateArticleInfo(id: string, params: FormData) {
   return request.post(`/articles/${id}/update_info`, params, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
+}
+
+// 新建文章
+export function createArticle(params: { title: string; content: string }) {
+  return request.post<unknown, RequestRespon<ArticleItem>>(`/articles`, params);
+}
+
+// 文章点赞
+export function like(id: string) {
+  return request.post(`/articles/${id}/like`);
+}
+
+// 文章阅读
+export function view(id: string) {
+  return request.post(`/articles/${id}/view`);
+}
+
+// 删除文章
+export function deleteArticle(id: string) {
+  return request.delete(`/articles/${id}`);
 }

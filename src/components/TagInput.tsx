@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   tag: {
-    lineHeight: 14,
+    // lineHeight: 14,
     fontSize: 14,
     alignItems: 'center',
     height: 26,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   addBtn: {
     height: 26,
     justifyContent: 'center',
-    lineHeight: 14,
+    // lineHeight: 14,
     fontSize: 14,
     textAlignVertical: 'center',
   },

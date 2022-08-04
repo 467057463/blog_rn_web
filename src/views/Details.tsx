@@ -1,37 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { observer } from 'mobx-react-lite';
-import { Avatar, Icon, Image, Text, Button } from '@rneui/themed';
-// import Markdown from 'react-native-markdown-renderer';
+import { Icon, Image, Text } from '@rneui/themed';
+import { useToast } from 'react-native-toast-notifications';
+
 import { getArticle } from '@/api/article';
 import Markdown from '@/components/Markdown';
 
 import type { StatusType } from '@/types/util';
 import type { ArticleItem } from '@/types/article';
-import avatar from '@/assets/avatar.jpg';
 import { useStore } from '@/hook/useStore';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import dayjs from 'dayjs';
 
 export default observer(function Details({ route, navigation }: any) {
+  const toast = useToast();
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
   const [article, setArticle] = useState<ArticleItem>();
-  const { userStore } = useStore();
+  const { articleStore } = useStore();
+
+  // 获取数据
   async function fetchData() {
     try {
       setLoadingStatus('loading');
       const res = await getArticle(route.params.id);
       setArticle(res.result);
-      // console.log(res.result);
       setLoadingStatus('success');
     } catch (error) {
       setLoadingStatus('error');
     }
   }
 
+  // 点赞
+  async function likeArticle() {
+    try {
+      await articleStore.likeArticle(route.params.id);
+      toast.show('点赞成功', {
+        placement: 'top',
+        duration: 3000,
+        animationType: 'slide-in',
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     fetchData();
+    articleStore.viewArticle(route.params.id);
     navigation.setOptions({
       title: route.params.title,
     });
@@ -56,15 +73,6 @@ export default observer(function Details({ route, navigation }: any) {
       <View style={styles.markdown}>
         <Markdown>{article?.content}</Markdown>
       </View>
-      {/* <View style={styles.header}>
-        <Avatar
-          source={avatar}
-          size={20}
-          rounded
-          containerStyle={styles.avatar}
-        />
-        <Text style={styles.username}>{article?.author.username}</Text>
-      </View> */}
       <View style={styles.metaInfo}>
         <View style={styles.metaItem}>
           <Icon name="like" type="iconfont" size={16} style={styles.metaIcon} />
@@ -88,24 +96,10 @@ export default observer(function Details({ route, navigation }: any) {
             name="good"
             type="iconfont"
             color="#fe9404"
-            onPress={() => console.log('hello')}
+            onPress={() => likeArticle()}
           />
           <Text style={styles.likeText}>点赞鼓励一下！</Text>
         </View>
-
-        {/* {!userStore.logined && (
-          <View style={styles.actions}>
-            <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
-              删除
-            </Button>
-            <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
-              编辑
-            </Button>
-            <Button type="clear" size="sm" titleStyle={styles.buttonStyle}>
-              编辑分类
-            </Button>
-          </View>
-        )} */}
       </View>
     </ScrollView>
   );
@@ -132,11 +126,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     paddingHorizontal: 20,
+    marginTop: 15,
   },
   image: {
     width: '100%',
     height: 180,
-    marginBottom: 15,
   },
   markdown: {
     paddingHorizontal: 20,

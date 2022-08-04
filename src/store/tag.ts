@@ -52,22 +52,35 @@ export default class TagStore {
       prefixes: [''],
       config: {
         screens: {
-          Technology: {
-            path: '/',
-            exact: true,
-            screens: res,
-          },
-          Life: {
-            path: 'life',
-            exact: true,
-          },
-          About: {
-            path: 'about',
-            exact: true,
+          Home: {
+            screens: {
+              Technology: {
+                path: 'technology',
+                exact: true,
+                screens: res,
+              },
+              Life: {
+                path: 'life',
+                exact: true,
+              },
+              About: {
+                path: 'about',
+                exact: true,
+              },
+            },
           },
           Login: 'login',
+          Draft: 'draft',
+          Privacy: 'privacy',
+          Create: 'create',
           Details: {
             path: 'details/:id',
+          },
+          Edit: {
+            path: 'edit/:id',
+          },
+          EditCategory: {
+            path: 'editCategory/:id',
           },
         },
       },

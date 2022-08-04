@@ -1,7 +1,6 @@
 import React from 'react';
 import { Overlay } from '@rneui/themed';
-import { Text, StyleSheet, ActivityIndicator } from 'react-native';
-// import Modal from 'modal-react-native-web';
+import { Text, StyleSheet } from 'react-native';
 
 export default ({ visible, text, position }) => {
   const positionStyle = {
@@ -10,7 +9,6 @@ export default ({ visible, text, position }) => {
 
   return (
     <Overlay
-      // ModalComponent={Modal}
       isVisible={visible}
       overlayStyle={[styles.overlayStyle, positionStyle]}
     >

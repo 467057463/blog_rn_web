@@ -16,7 +16,7 @@ export default function Home() {
         options={{
           title: '技术',
           drawerIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="technology" size={size} color={color} />
           ),
         }}
       />
@@ -26,7 +26,7 @@ export default function Home() {
         options={{
           title: '随笔',
           drawerIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="life" size={size} color={color} />
           ),
         }}
       />
@@ -36,7 +36,7 @@ export default function Home() {
         options={{
           title: '关于',
           drawerIcon: ({ focused, color, size }) => (
-            <Iconfont name="view" size={size} color={color} />
+            <Iconfont name="about" size={size} color={color} />
           ),
         }}
       />

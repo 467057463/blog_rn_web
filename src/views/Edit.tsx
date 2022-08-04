@@ -1,25 +1,23 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Button, Input } from '@rneui/themed';
 import { useForm, Controller } from 'react-hook-form';
+import { useToast } from 'react-native-toast-notifications';
 
 import Editor from '@/components/Editor';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import ModalLoading from '@/components/ModalLoading';
-import Modal from '@/components/Modal';
 import { getArticle, updateArticle } from '@/api/article';
 import type { StatusType } from '@/types/util';
 import { delay } from '@/utils';
 
 export default observer(function Edit({ route, navigation }: any) {
+  const toast = useToast();
   // data
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-  const [promptVisible, setPromptVisible] = useState<boolean>(false);
-  const [prompt, setPrompt] = useState<string>();
-  const [promptPosition, setPromptPosition] = useState<string>();
 
   // form
   const {
@@ -55,11 +53,12 @@ export default observer(function Edit({ route, navigation }: any) {
       await updateArticle(route.params.id, data);
       setSubmitLoading(false);
 
-      setPromptVisible(true);
-      setPromptPosition('top');
-      setPrompt('文章更新成功');
+      toast.show('文章更新成功', {
+        placement: 'top',
+        duration: 1000,
+        animationType: 'slide-in',
+      });
       await delay(1000);
-      setPromptVisible(false);
       navigation.navigate('Details', {
         id: route.params.id,
         title: data.title,
@@ -86,7 +85,7 @@ export default observer(function Edit({ route, navigation }: any) {
           size="sm"
           containerStyle={{ marginRight: 15 }}
           type="clear"
-          titleStyle={{ color: '#fff' }}
+          titleStyle={{ color: Platform.OS !== 'web' ? '#fff' : '#007aff' }}
         >
           保存
         </Button>
@@ -143,7 +142,6 @@ export default observer(function Edit({ route, navigation }: any) {
       />
       {/* loading */}
       <ModalLoading visible={submitLoading} />
-      <Modal visible={promptVisible} text={prompt} position="top" />
     </View>
   );
 });

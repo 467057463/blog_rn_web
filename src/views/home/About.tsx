@@ -49,22 +49,28 @@ export default observer(function User({ navigation }: any) {
       <View style={styles.listWrapper}>
         {userStore.logined ? (
           <>
-            <ListItem bottomDivider>
-              <Icon name="view" type="iconfont" size={16} />
+            <ListItem
+              bottomDivider
+              onPress={() => navigation.navigate('Draft')}
+            >
+              <Icon name="draft" type="iconfont" size={16} />
               <ListItem.Content>
                 <ListItem.Title>草稿箱</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-            <ListItem bottomDivider>
-              <Icon name="lock" type="iconfont" size={16} />
+            <ListItem
+              bottomDivider
+              onPress={() => navigation.navigate('Privacy')}
+            >
+              <Icon name="life" type="iconfont" size={16} />
               <ListItem.Content>
-                <ListItem.Title>私密日记</ListItem.Title>
+                <ListItem.Title>日记</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-            <ListItem>
-              <Icon name="view" type="iconfont" size={16} />
+            <ListItem onPress={() => navigation.navigate('Create')}>
+              <Icon name="create" type="iconfont" size={16} />
               <ListItem.Content>
                 <ListItem.Title>发布文章</ListItem.Title>
               </ListItem.Content>

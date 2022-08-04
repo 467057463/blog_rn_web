@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from './index';
-import { getArticles } from '@/api/article';
-import { ArticleItem } from '@/types/article';
+import { getArticles, view, like, deleteArticle } from '@/api/article';
+import type { ArticleItem } from '@/types/article';
 
 import type { StatusType } from '@/types/util';
 import type { GetArticlesRespon } from '@/types/article';
@@ -46,6 +46,7 @@ export default class ArticleStore {
     return this.dataMap.get(type);
   }
 
+  // 根据 category/tag 获取文章列表
   async getArticles(category: string, tag: string, params?) {
     const map = this.getDataMap(tag || category)!;
 
@@ -64,5 +65,30 @@ export default class ArticleStore {
     }
   }
 
-  fetchArticles(type: string) {}
+  // 浏览文章
+  async viewArticle(id: string) {
+    try {
+      await view(id);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // 点赞文章
+  async likeArticle(id: string) {
+    try {
+      await like(id);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // 删除文章
+  async deleteArticle(id: string) {
+    try {
+      await deleteArticle(id);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 }

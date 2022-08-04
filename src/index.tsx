@@ -11,6 +11,10 @@ function Root() {
           font-family: 'Iconfont';
           src: url(${require('react-native-vector-icons/Fonts/Iconfont.ttf')}) format('truetype');
         }
+        @font-face {
+          font-family: 'MaterialIcons';
+          src: url(${require('react-native-vector-icons/Fonts/MaterialIcons.ttf')}) format('truetype');
+        }
       `}</style>
       <App />
     </>

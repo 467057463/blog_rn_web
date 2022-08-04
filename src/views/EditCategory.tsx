@@ -1,18 +1,22 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Button, Input, Text } from '@rneui/themed';
 import { useForm, Controller } from 'react-hook-form';
 import FileInput from '@/components/FileInput';
 import TagInput from '@/components/TagInput';
 import { Picker } from '@react-native-picker/picker';
+import { useToast } from 'react-native-toast-notifications';
+
 import { getArticle, updateArticleInfo } from '@/api/article';
 import type { StatusType } from '@/types/util';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import ModalLoading from '@/components/ModalLoading';
+import { delay } from '@/utils';
 
 export default observer(function EditCategory({ route, navigation }: any) {
+  const toast = useToast();
   // data
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -80,7 +84,12 @@ export default observer(function EditCategory({ route, navigation }: any) {
       setSubmitLoading(true);
       await updateArticleInfo(route.params.id, formData);
       setSubmitLoading(false);
-      console.log(data.title);
+      toast.show('文章信息更新成功', {
+        placement: 'top',
+        duration: 1000,
+        animationType: 'slide-in',
+      });
+      await delay(1000);
       navigation.navigate('Details', {
         id: route.params.id,
         title: data.title,
@@ -107,7 +116,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
           size="sm"
           containerStyle={{ marginRight: 15 }}
           type="clear"
-          titleStyle={{ color: '#fff' }}
+          titleStyle={{ color: Platform.OS !== 'web' ? '#fff' : '#007aff' }}
         >
           保存
         </Button>
@@ -166,7 +175,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
             <View>
               <Text style={styles.label}>文章图片</Text>
             </View>
-            <View style={[styles.inputWrapper]}>
+            <View style={[styles.inputWrapper, { paddingBottom: 10 }]}>
               <FileInput
                 onChange={onChange}
                 onRemove={handleRemoveCover}
@@ -185,7 +194,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
             <View>
               <Text style={styles.label}>文章分类</Text>
             </View>
-            <View style={[styles.inputWrapper]}>
+            <View style={[styles.inputWrapper, { paddingBottom: 10 }]}>
               <Picker
                 selectedValue={value}
                 onValueChange={(itemValue, itemIndex) => onChange(itemValue)}

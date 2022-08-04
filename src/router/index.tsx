@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar, Platform } from 'react-native';
 import { Text } from '@rneui/themed';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,8 +9,11 @@ import { useStore } from '@/hook/useStore';
 import Home from '@/views/home/index';
 import Details from '@/views/Details';
 import Edit from '@/views/Edit';
+import Create from '@/views/Create';
 import EditCategory from '@/views/EditCategory';
 import Login from '@/views/Login';
+import Draft from '@/views/Draft';
+import Privacy from '@/views/Privacy';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 
@@ -33,6 +36,7 @@ export default observer(function AppRouter() {
   }
 
   return (
+    // @ts-ignore
     <NavigationContainer linking={store.tagStore.linking}>
       <StatusBar
         backgroundColor="#007aff"
@@ -42,12 +46,12 @@ export default observer(function AppRouter() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#007aff',
+            backgroundColor: Platform.OS !== 'web' ? '#007aff' : '#fff',
           },
-          headerTintColor: '#fff',
+          headerTintColor: Platform.OS !== 'web' ? '#fff' : '#000',
           headerTitleAlign: 'center',
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: Platform.OS !== 'web' ? 'bold' : 'normal',
           },
         }}
       >
@@ -79,6 +83,27 @@ export default observer(function AppRouter() {
           component={Login}
           options={{
             title: '登录',
+          }}
+        />
+        <Stack.Screen
+          name="Draft"
+          component={Draft}
+          options={{
+            title: '草稿箱',
+          }}
+        />
+        <Stack.Screen
+          name="Privacy"
+          component={Privacy}
+          options={{
+            title: '日记',
+          }}
+        />
+        <Stack.Screen
+          name="Create"
+          component={Create}
+          options={{
+            title: '发布文章',
           }}
         />
       </Stack.Navigator>
