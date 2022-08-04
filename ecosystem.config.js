@@ -21,7 +21,8 @@ module.exports = {
       repo: 'git@github.com:467057463/blog_rn_web.git',
       path: '/var/www/blog_rn_web',
       'pre-deploy-local': '',
-      'post-deploy': 'npm --production=false install && npm run build:web',
+      'post-deploy':
+        'npm --production=false install --legacy-peer-deps && npm run build:web',
       'pre-setup': '',
       env: {
         NODE_ENV: 'production',
