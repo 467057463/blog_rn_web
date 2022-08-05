@@ -14,9 +14,12 @@ import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import ModalLoading from '@/components/ModalLoading';
 import { delay } from '@/utils';
+import { useStore } from '@/hook/useStore';
 
 export default observer(function EditCategory({ route, navigation }: any) {
   const toast = useToast();
+  const { articleStore } = useStore();
+
   // data
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -82,7 +85,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
     }
     try {
       setSubmitLoading(true);
-      await updateArticleInfo(route.params.id, formData);
+      await articleStore.updateArticleInfo(route.params.id, formData);
       setSubmitLoading(false);
       toast.show('文章信息更新成功', {
         placement: 'top',

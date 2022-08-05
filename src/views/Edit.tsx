@@ -12,9 +12,12 @@ import ModalLoading from '@/components/ModalLoading';
 import { getArticle, updateArticle } from '@/api/article';
 import type { StatusType } from '@/types/util';
 import { delay } from '@/utils';
+import { useStore } from '@/hook/useStore';
 
 export default observer(function Edit({ route, navigation }: any) {
   const toast = useToast();
+  const { articleStore } = useStore();
+
   // data
   const [loadingStatus, setLoadingStatus] = useState<StatusType>('loading');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -50,7 +53,7 @@ export default observer(function Edit({ route, navigation }: any) {
   async function onSubmit(data) {
     try {
       setSubmitLoading(true);
-      await updateArticle(route.params.id, data);
+      await articleStore.updateArticle(route.params.id, data);
       setSubmitLoading(false);
 
       toast.show('文章更新成功', {

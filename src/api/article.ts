@@ -36,6 +36,21 @@ export function getArticle(id: string) {
   return request.get<unknown, RequestRespon<ArticleItem>>(`/articles/${id}`);
 }
 
+// 新建文章
+export function createArticle(params: { title: string; content: string }) {
+  return request.post<unknown, RequestRespon<ArticleItem>>(`/articles`, params);
+}
+
+// 浏览文章
+export function view(id: string) {
+  return request.post(`/articles/${id}/view`);
+}
+
+// 点赞文章
+export function like(id: string) {
+  return request.post(`/articles/${id}/like`);
+}
+
 // 更新文章
 export function updateArticle(
   id: string,
@@ -46,24 +61,13 @@ export function updateArticle(
 
 // 更新文章分类等信息
 export function updateArticleInfo(id: string, params: FormData) {
-  return request.post(`/articles/${id}/update_info`, params, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}
-
-// 新建文章
-export function createArticle(params: { title: string; content: string }) {
-  return request.post<unknown, RequestRespon<ArticleItem>>(`/articles`, params);
-}
-
-// 文章点赞
-export function like(id: string) {
-  return request.post(`/articles/${id}/like`);
-}
-
-// 文章阅读
-export function view(id: string) {
-  return request.post(`/articles/${id}/view`);
+  return request.post<unknown, RequestRespon<ArticleItem>>(
+    `/articles/${id}/update_info`,
+    params,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }
+  );
 }
 
 // 删除文章
