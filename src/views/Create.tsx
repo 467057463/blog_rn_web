@@ -8,7 +8,6 @@ import Editor from '@/components/Editor';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
 import ModalLoading from '@/components/ModalLoading';
-import Modal from '@/components/Modal';
 import { createArticle } from '@/api/article';
 import type { StatusType } from '@/types/util';
 import { delay } from '@/utils';
@@ -117,7 +116,6 @@ export default observer(function Edit({ route, navigation }: any) {
       />
       {/* loading */}
       <ModalLoading visible={submitLoading} />
-      <Modal visible={promptVisible} text={prompt} position="top" />
     </View>
   );
 });

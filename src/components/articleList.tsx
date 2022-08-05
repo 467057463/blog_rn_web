@@ -85,6 +85,9 @@ export default observer(({ category, tag, navigation }: any) => {
           title: article.title,
         })
       }
+      onSwipeEnd={() => {
+        return false;
+      }}
     >
       <ListItem.Content>
         <View style={styles.header}>
