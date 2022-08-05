@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Button, Input } from '@rneui/themed';
 import { useForm, Controller } from 'react-hook-form';
@@ -67,7 +67,7 @@ export default observer(function Edit({ route, navigation }: any) {
           size="sm"
           containerStyle={{ marginRight: 15 }}
           type="clear"
-          titleStyle={{ color: '#fff' }}
+          titleStyle={{ color: Platform.OS !== 'web' ? '#fff' : '#007aff' }}
         >
           保存
         </Button>

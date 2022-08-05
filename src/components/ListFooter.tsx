@@ -15,7 +15,7 @@ export default observer(({ category, tag }: Props) => {
   const { articleStore } = useStore();
   const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
 
-  if (!data.inited || !data.list.length) {
+  if (!data.inited || !data.listId.length) {
     return null;
   }
   return (

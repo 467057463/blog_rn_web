@@ -15,9 +15,13 @@ import Error from '@/components/Error';
 
 export default observer(({ category, tag, navigation }: any) => {
   const { articleStore, userStore } = useStore();
-  const { theme } = useTheme();
 
-  const data = computed(() => articleStore.getDataMap(tag || category)).get()!;
+  const data = computed(() => {
+    const data = articleStore.getDataMap(tag || category);
+    const list = data.listId.map((id) => articleStore.listMap.get(id)!);
+    // console.log(data, list, articleStore.listMap);
+    return { ...data, list };
+  }).get()!;
 
   // 获取数据
   function getList(category: string, tag: string, params?) {
@@ -42,126 +46,126 @@ export default observer(({ category, tag, navigation }: any) => {
   const CustomTag = userStore.logined ? ListItem.Swipeable : ListItem;
 
   // 列表项
-  const renderItem = ({ item: article }: { item: ArticleItem }) => (
-    <CustomTag
-      bottomDivider
-      rightContent={(reset) => (
-        <>
-          <TouchableOpacity
-            style={[styles.articleButton, { backgroundColor: '#fe9404' }]}
-            onPress={() => {
-              navigation.navigate('Edit', {
-                id: article._id,
-              });
-              reset();
-            }}
-          >
-            <Icon name="edit_info" type="iconfont" size={16} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.articleButton, { backgroundColor: '#ff6d03' }]}
-            onPress={() => {
-              navigation.navigate('EditCategory', {
-                id: article._id,
-              });
-              reset();
-            }}
-          >
-            <Icon name="edit" type="iconfont" size={16} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.articleButton, { backgroundColor: '#ff3b32' }]}
-            onPress={() => reset()}
-          >
-            <Icon name="delete" type="iconfont" size={16} color="#fff" />
-          </TouchableOpacity>
-        </>
-      )}
-      rightWidth={120}
-      rightStyle={{ flexDirection: 'row' }}
-      onPress={() =>
-        navigation.navigate('Details', {
-          id: article._id,
-          title: article.title,
-        })
-      }
-      onSwipeEnd={() => {
-        return false;
-      }}
-    >
-      <ListItem.Content>
-        <View style={styles.header}>
-          <Avatar
-            source={avatar}
-            size={20}
-            rounded
-            containerStyle={styles.avatar}
-          />
-          <Text style={styles.username} selectable={false}>
-            {article.author.username}
-          </Text>
-        </View>
-        <View style={styles.body}>
-          {!!article.cover && (
-            <Image
-              source={{ uri: article.cover }}
-              containerStyle={styles.image}
-              resizeMode="cover"
-            />
-          )}
-          <View style={styles.content}>
-            <ListItem.Title
-              style={styles.title}
-              numberOfLines={2}
-              selectable={false}
+  const ArticleItem = observer(({ article }: { article: ArticleItem }) => {
+    return (
+      <CustomTag
+        bottomDivider
+        rightContent={(reset) => (
+          <>
+            <TouchableOpacity
+              style={[styles.articleButton, { backgroundColor: '#fe9404' }]}
+              onPress={() => {
+                navigation.navigate('Edit', {
+                  id: article._id,
+                });
+                reset();
+              }}
             >
-              {article.title}
-            </ListItem.Title>
-            <ListItem.Subtitle
-              style={styles.describe}
-              numberOfLines={2}
-              selectable={false}
+              <Icon name="edit_info" type="iconfont" size={16} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.articleButton, { backgroundColor: '#ff6d03' }]}
+              onPress={() => {
+                navigation.navigate('EditCategory', {
+                  id: article._id,
+                });
+                reset();
+              }}
             >
-              {article.describe || '暂无描述'}
-            </ListItem.Subtitle>
-          </View>
-        </View>
-        <View style={styles.metaInfo}>
-          <View style={styles.metaItem}>
-            <Icon
-              name="like"
-              type="iconfont"
-              size={16}
-              style={styles.metaIcon}
+              <Icon name="edit" type="iconfont" size={16} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.articleButton, { backgroundColor: '#ff3b32' }]}
+              onPress={() => reset()}
+            >
+              <Icon name="delete" type="iconfont" size={16} color="#fff" />
+            </TouchableOpacity>
+          </>
+        )}
+        rightWidth={120}
+        rightStyle={{ flexDirection: 'row' }}
+        onPress={() =>
+          navigation.navigate('Details', {
+            id: article._id,
+            title: article.title,
+          })
+        }
+      >
+        <ListItem.Content>
+          <View style={styles.header}>
+            <Avatar
+              source={avatar}
+              size={20}
+              rounded
+              containerStyle={styles.avatar}
             />
-            <Text style={styles.metaText} selectable={false}>
-              {article.meta.like}
+            <Text style={styles.username} selectable={false}>
+              {article.author.username}
             </Text>
           </View>
-          <View style={styles.metaItem}>
-            <Icon
-              name="view"
-              type="iconfont"
-              size={16}
-              style={styles.metaIcon}
-            />
-            <Text style={styles.metaText} selectable={false}>
-              {article.meta.view}
-            </Text>
+          <View style={styles.body}>
+            {!!article.cover && (
+              <Image
+                source={{ uri: article.cover }}
+                containerStyle={styles.image}
+                resizeMode="cover"
+              />
+            )}
+            <View style={styles.content}>
+              <ListItem.Title
+                style={styles.title}
+                numberOfLines={2}
+                selectable={false}
+              >
+                {article.title}
+              </ListItem.Title>
+              <ListItem.Subtitle
+                style={styles.describe}
+                numberOfLines={2}
+                selectable={false}
+              >
+                {article.describe || '暂无描述'}
+              </ListItem.Subtitle>
+            </View>
           </View>
-          {/* <View  style={styles.metaItem}>
-          <Icon name="like" type="iconfont" />
-          {article.meta.view}
-        </View> */}
-          <View style={styles.createdAt}>
-            <Text style={styles.createdAtText} selectable={false}>
-              {dayjs(article.createdAt).format('YYYY/MM/DD HH:mm:ss')}
-            </Text>
+          <View style={styles.metaInfo}>
+            <View style={styles.metaItem}>
+              <Icon
+                name="like"
+                type="iconfont"
+                size={16}
+                style={styles.metaIcon}
+              />
+              <Text style={styles.metaText} selectable={false}>
+                {article.meta.like}
+              </Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Icon
+                name="view"
+                type="iconfont"
+                size={16}
+                style={styles.metaIcon}
+              />
+              <Text style={styles.metaText} selectable={false}>
+                {article.meta.view}
+              </Text>
+            </View>
+
+            <View style={styles.createdAt}>
+              <Text style={styles.createdAtText} selectable={false}>
+                {dayjs(article.createdAt).format('YYYY/MM/DD HH:mm:ss')}
+              </Text>
+            </View>
           </View>
-        </View>
-      </ListItem.Content>
-    </CustomTag>
-  );
+        </ListItem.Content>
+      </CustomTag>
+    );
+  });
+
+  const renderItem = ({ item: article }: { item: ArticleItem }) => {
+    return <ArticleItem article={article} />;
+  };
 
   return (
     <View style={styles.container}>

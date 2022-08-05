@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import union from 'lodash/union';
 import { RootStore } from './index';
 import { getArticles, view, like, deleteArticle } from '@/api/article';
 import type { ArticleItem } from '@/types/article';
@@ -6,20 +7,23 @@ import type { ArticleItem } from '@/types/article';
 import type { StatusType } from '@/types/util';
 import type { GetArticlesRespon } from '@/types/article';
 
+type ListMapType = Map<string, ArticleItem>;
 type DataMapType = Map<
   string,
   {
     loginStatus: StatusType;
     inited: boolean;
-    list: ArticleItem[];
+    listId: string[];
     meta: {
       currentPage: number;
       hasNext: boolean;
     };
   }
 >;
+
 export default class ArticleStore {
   rootStore: RootStore;
+  listMap: ListMapType = new Map();
   dataMap: DataMapType = new Map();
 
   constructor(rootStore) {
@@ -33,7 +37,7 @@ export default class ArticleStore {
       this.dataMap.set(key, {
         loginStatus: 'loading',
         inited: false,
-        list: [],
+        listId: [],
         meta: {
           currentPage: 0,
           hasNext: true,
@@ -42,8 +46,9 @@ export default class ArticleStore {
     });
   }
 
+  // 根据 category/tag 获取 dataMap
   getDataMap(type: string) {
-    return this.dataMap.get(type);
+    return this.dataMap.get(type)!;
   }
 
   // 根据 category/tag 获取文章列表
@@ -56,7 +61,12 @@ export default class ArticleStore {
         result: { list, meta },
       } = await getArticles(category, tag, params);
 
-      map.list = [...map.list, ...list];
+      const listId = list.map((item) => {
+        this.listMap.set(item._id, item);
+        return item._id;
+      });
+      // 去重先入保留
+      map.listId = union(map.listId, listId);
       map.meta = meta;
       map.loginStatus = 'success';
       map.inited = true;
@@ -68,7 +78,10 @@ export default class ArticleStore {
   // 浏览文章
   async viewArticle(id: string) {
     try {
+      const article = this.listMap.get(id)!;
+      console.log(article);
       await view(id);
+      article.meta.view = article.meta.view + 1;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -77,7 +90,10 @@ export default class ArticleStore {
   // 点赞文章
   async likeArticle(id: string) {
     try {
+      const article = this.listMap.get(id)!;
+
       await like(id);
+      article.meta.like = article.meta.like + 1;
     } catch (error) {
       return Promise.reject(error);
     }
