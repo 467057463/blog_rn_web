@@ -46,6 +46,7 @@ export default observer(function EditCategory({ route, navigation }: any) {
     try {
       setLoadingStatus('loading');
       const res = await getArticle(route.params.id);
+      console.log(res);
       setValue('describe', res.result.describe);
       setValue('cover', res.result.cover);
       setValue('category', res.result.category);
