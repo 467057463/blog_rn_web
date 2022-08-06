@@ -41,6 +41,7 @@ export default observer(function Edit({ route, navigation }: any) {
     try {
       setLoadingStatus('loading');
       const res = await getArticle(route.params.id);
+      console.log(res);
       setValue('title', res.result.title);
       setValue('content', res.result.content);
       setLoadingStatus('success');
