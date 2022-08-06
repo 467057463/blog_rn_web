@@ -89,7 +89,9 @@ export default class ArticleStore {
       const article = this.listMap.get(id)!;
       console.log(article);
       await view(id);
-      article.meta.view = article.meta.view + 1;
+      if (article) {
+        article.meta.view = article.meta.view + 1;
+      }
     } catch (error) {
       return Promise.reject(error);
     }
@@ -100,7 +102,9 @@ export default class ArticleStore {
     try {
       const article = this.listMap.get(id)!;
       await like(id);
-      article.meta.like = article.meta.like + 1;
+      if (article) {
+        article.meta.like = article.meta.like + 1;
+      }
     } catch (error) {
       return Promise.reject(error);
     }
@@ -111,7 +115,9 @@ export default class ArticleStore {
     try {
       const article = this.listMap.get(id)!;
       await updateArticle(id, params);
-      article.title = params.title;
+      if (article) {
+        article.title = params.title;
+      }
     } catch (error) {
       return Promise.reject(error);
     }
