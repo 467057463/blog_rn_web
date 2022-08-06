@@ -40,4 +40,4 @@ jobs:
           FOLDER: ./build/*
           SERVER_IP: ${{ secrets.SSH_HOST }}
           USERNAME: ${{ secrets.SSH_USERNAME }}
-          SERVER_DESTINATION: /var/www/blog_rn_web/build
+          SERVER_DESTINATION: /var/www/blog_rn_web/
